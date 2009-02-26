@@ -1,0 +1,49 @@
+Every time I hear someone say that Java is "scalable" my initial
+reaction is to kick the person who said it in the shin.
+
+I have been talking to a lot of people lately about the tools we are
+using at [Gnip][gnip].  Every time I tell someone that major parts of
+our system are written in Java the response seems to be, "Oh, for it's
+scaling capability?"  While I was safely ensconced in the Ruby world I
+had hope that this malformed meme was dead.  It seems that in the
+wider world it's not quite dead.
+
+I never actually kick the person, by the way.  Instead I just sigh and
+explain that, no that is not the reason.  Scalability *cannot* be the
+reason we use Java, because Java does not scale any better, or worse,
+than any other general purpose language.
+
+There are a variety of different sorts of scalability. The most
+interesting type of scaling in the context of web applications, like
+Gnip, is how easily can you increase the number of requests/sec the
+system can handle.  This sort of scalability, or lack thereof, derives
+pretty much entirely from the architecture of the system.  No language
+will magically make your system be able, or unable, to handle an order
+of magnitude increase in the number of requests.
+
+The culture[^what-culture] of Java actually encourages the development
+of mediumly, rather than highly, scaolable systems.  It does this by
+favoring the use of multi-threading, shared state, vertical scaling
+and large monolithic components.  These techniques do not scale
+infinitely.  Fortunately, Java is fast enough that they can scale to
+quite significant levels.  Even though the culture of Java encourages
+these less than perfectly scalable techniques you can quite build
+highly scalable systems with Java quite readily.  You just have to be
+willing to buck the culture when it is necessary.
+
+Performance, on the other hand, does derived, to a significant degree,
+from your language,[^how-i-wish-otherwise] and that is why we use
+Java.
+
+
+[^how-i-wish-otherwise]: I really wish this were not the case.  I
+don't think it has to be this way but today Java is a lot faster that
+most of the languages I really like.
+
+[^what-culture]: Every language has a set of idioms and practices that
+it, and it's community, implicitly encourage.  This set of idioms and
+practices are what I mean by culture.
+
+
+
+[gnip]: http://gnipcentral.com

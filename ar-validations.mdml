@@ -1,0 +1,52 @@
+[Ara Howard has discovered that the ActiveRecord validation mechanism
+does not ensure data
+integrity][ara-howard-ar-validations].[^hork-the-db] Validations feel
+a bit like database constraints but it turns out they are really only
+useful for produce human friendly error messages.
+
+This is because the assertions they define tested by reading from the
+database before the changes are written to the database.  As you will
+no doubt recall repeatable reads are not guaranteed by any isolation
+mode other than [serializable][serializable isolation mode].  So
+unless you are running your database in serializable isolation mode
+(and you aren't because nobody does) that means that ActiveRecord
+validations setup a classic [race condition][]
+
+At my work project we found this out the hard way.  The appearance of
+multiple records should have been blocked by the validations was a bit
+surprising.  In our case, the impacted models were immutable so we
+only had to solve this from for the `#find_or_create` case.  We just
+reimplemented `#find_or_create` so that it does the following:
+
+ 1. do a find
+ 2.a if we found a matching record return the model object
+ 2.b. if it does not exist create a savepoint 
+ 3. insert the record 
+ 4.a. if the insert succeeds return the new model object
+ 4.b. if the insert failed re-run the find and return the result
+
+This approach does requires the use of database constraints but,
+having your data integrity constraint definitions separated from the
+data model definition has always felt a bit awkward.  So this feels a
+bit more like a feature than a bug.
+
+It would be really nice if this behavior were included by default in
+ActiveRecord.  A similar approach could be used to remove the race
+conditions in regular creates and saves by simply detecting the insert
+or update failures and re-executing the validations.  This would
+provide the pretty error messages Rails users expect with the data
+integrity protection that modern database users expect.
+
+Even better the validations could be mechanically created from the
+database constraints in many cases.  For example [DrySQL][] already
+does this. 
+
+
+
+[^hork-your-db]: You have to love any sample code that has a method
+`Fubar.hork_the_db` in it.  
+
+[drysql]: http://drysql.rubyforge.org/
+[race condition]: http://en.wikipedia.org/wiki/Race_condition
+[ara-howard-ar-validations]: http://drawohara.tumblr.com/post/18926188
+[serializable isolation mode]: http://en.wikipedia.org/wiki/Isolation_(computer_science)#SERIALIZABLE

@@ -1,0 +1,51 @@
+[Resourceful][] has its [initial (0.2) release][resourceful-0.2]
+[today][paul-resourceful-announce].  
+
+Resourceful is a sophisticated HTTP client library for Ruby.  It will
+(when it is complete, at least) provide an simple API for fully
+utilizing the amazing goodness that is HTTP.
+
+It is already tasty, though.  The 0.2 release provides
+
+ * fully compliant HTTP caching
+ * a framework for implementing cache managers (memory based cache manager provided)
+ * fully compliant transparent redirection handling (with hooks for overriding the default behavior)
+ * plugable HTTP authentication handling (Basic provided)
+
+### Introduction
+
+The API is strongly influenced by our successful experiences with
+REST.  Each URI is represented by a `Resource` object.  The `Resource`
+objects act as a proxy for the conceptual resource.  `Resources`
+expose the basic set of HTTP verbs: get, put, post, delete.  For
+example to get a representation of some resource you do this 
+
+    require 'resourceful'
+    http = Resourceful::HttpAccessor.new
+    resp = http.resource('http://rubyforge.org').get
+    puts resp.body
+
+
+If you want to post a form you do this
+
+    require 'resourceful'
+    http = Resourceful::HttpAccessor.new
+    resp = http.resource('http://rubyforge.org').put("name=Peter&hobbies=programming,diy", :cotent_type => "application/x-www-form-urlencoded")
+    puts resp.code
+
+All non-2xx responses are either handled transparently (e.g. by
+following redirects) or the method will raise a
+`UnsuccessfulHttpRequestError`.
+
+### Conclusion
+
+If you need a decent HTTP library in Ruby come on over and check it
+out.  If you see something you want, or want fixed, feel free to
+branch the [git repo][git-repo] and do it.  [Paul][paul] and I would
+love some more contributors and will welcome you with open arms.
+
+[paul]: http://www.theamazingrando.com/blog/
+[paul-resourceful-announce]: http://www.theamazingrando.com/blog/index.php/2008/06/30/announcing-resourceful/
+[resourceful]: http://resourceful.rubyforge.org/
+[resourceful-0.2]: http://github.com/paul/resourceful/commits/rel_0.2
+[git-repo]: http://github.com/paul/resourceful/tree/master

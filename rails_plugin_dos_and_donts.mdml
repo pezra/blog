@@ -1,0 +1,21 @@
+Defining new behavior for core Rails classes in mixins is a common
+pattern in Rails plugins.  This allows for a separation of concerns
+that improves maintainability and digestability.  However, it raises a
+bit of question about where the inclusion step should take place,
+should it happen in the plugin's `init.rb` or in the same file as the
+mixin module is defined?
+
+I recently had cause to use a couple of Rails plugins outside of a
+rails project.  This experience has allowed me to resolve this
+question, and the answer is: include the new behavior in the core
+classes in the same file that you define the behavior.  That way if
+you need to use a subset of the behaviors defined in a plugin you can
+just require that file.  The people who use your plugin in ways you
+don't yet anticipate will thank you.
+
+Oh yeah, and please don't rely on the automatic module creation that
+dependency base autoloading in ActiveSupport provides.  It is a lot
+simpler for your uses if you explicitly define all the modules you
+need.
+
+

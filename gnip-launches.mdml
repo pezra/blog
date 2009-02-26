@@ -1,0 +1,29 @@
+Yesterday [Gnip][] launched!  We have a killer service offering.  And
+apparently lots [of][buzz1] [other][buzz2] [people][buzz3]
+[agree][buzz4].  I am totally stoked to be part of the Gnip team.
+
+The Gnip blog does a good job describing [why we exist][gnip-why] and
+[what we do][gnip-what].  
+
+If you are looking for the quick elevator pitch it goes something like
+this: If are a consumer of public data APIs and would like to stop
+polling hundreds or thousands of URLs, we provide a way to notify you
+when any event meeting your interest criteria has happened.  If you
+are a producer of data and would like to allow the world access to
+your data but the load of thousands of consumers polling your API is
+hard to manage, we help you by providing data consumers event
+notification. (Meaning they will only need to hit your API when
+something they actually care about has happened.)
+
+If either one of those sounds interesting you should definitely check
+us out.
+
+
+[gnip]: http://gnipcentral.com
+[gnip-why]: http://blog.gnipcentral.com/2008/07/01/the-why-of-gnip-stop-building-what-everyone-else-is-building/
+[gnip-what]: http://blog.gnipcentral.com/2008/07/01/the-what-of-gnip-changing-apis-from-pull-to-push/
+
+[buzz1]: http://www.readwriteweb.com/archives/gnip_grand_central_station.php
+[buzz2]: http://blog.plaxo.com/archives/2008/07/gnip_launches_a_1.html
+[buzz3]: http://blog.programmableweb.com/2008/07/01/data-portability-and-pushability-with-gnip/
+[buzz4]: http://www.brucemacvarish.com/2008/07/data-innovation-aggregation-for-the-web.html

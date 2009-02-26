@@ -1,0 +1,15 @@
+I love the new [Envy Code R font][envy-code-r].  It's very clear and
+easy to read.  I had looked at this font in the past and quite liked it. However, I
+need a somewhat larger font than its native size and previous releases
+of it did not scale very well.  Fortunately, the new version (pr7)
+seems to scales very nicely.
+
+Here is screen shot of "pretty" Emacs (on Ubuntu) using this beautiful
+font
+
+<img src="http://pezra.barelyenough.org/blog/wp-content/uploads/2008/07/emacs-envy-code-r.png" alt="Pretty Emacs using Envy Code R font" ></img>
+
+
+
+[envy-code-r]: http://damieng.com/blog/2008/05/26/envy-code-r-preview-7-coding-font-released
+

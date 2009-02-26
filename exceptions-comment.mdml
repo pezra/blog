@@ -1,0 +1,31 @@
+Dan,
+
+It all comes down to define "exception circumstance".  I don't think
+you can reasonably define that from applications point of view,
+because that would require a deep understanding of all possible
+applications.  If you accept that the only thing you are left with is
+to use the library's perspective, which turns out to be reasonably
+tractable.
+
+But from that perspective you end up raising a lot more exceptions
+because a library does need to know, or care, if an application is
+going to be able to operate without a configuration item that is
+missing or not, it only knows that the application asked for a
+configuration item and it is not able to provide that item.  It is an
+exceptional circumstance because the application would not have asked
+for something it did not care about.
+
+As for messy syntax and inefficiency, I suggest that you never let
+perceived inefficiencies in the compiler or runtime impact coding
+decisions until you have profiles in hand showing that it matters.  It
+almost never does.  
+
+Syntax, though is a different issue.  But you should think carefully
+before you trade `try{...} catch{...}` for `...; if(){}`.  There
+probably are situations where the second one is much better than the
+first but more often than not you are just bring the uncommon/error
+path into main line flow of your code.  That just makes it harder to
+understand what the intent of the code.  Moving the handling of even
+allowed/expected exceptional circumstances (like a missing
+configuration item) out into a catch block can have the effect of
+making the happy path a *lot* easier to understand.

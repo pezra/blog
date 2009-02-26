@@ -1,0 +1,144 @@
+mod_proxy_balancer Is A Two Timing Hussy
+===================================
+
+The canonical way to deploy a [Rails][ror[] application is using
+[Apache][] and [mod_proxy_balancer][] to act as a reverse proxy
+request to a cluster of [Mongrel][] processes running your
+application.  Conceptually this is great.  It is easy to setup, debug
+and monitor.  The only problem is mod_proxy_balancer.
+
+Lets start with [what][apache-mongrel-setup-1]
+[Google][apache-mongrel-setup-2] [suggests][apache-mongrel-setup-3].
+Setup your Apache configuration something like this:
+
+    <Proxy balancer://my-application>
+      BalancerMember http://localhost:8000
+      BalancerMember http://localhost:8001
+      BalancerMember http://localhost:8002
+    </Proxy>
+    
+    ProxyPass /my-application balancer://my-application
+
+That works.  Particularly if your application is low load and all the
+requests to your application take about the same amount of work.  If,
+however, the responses time for requests to your application vary much
+you will start seeing some odd artifacts in the response times for
+your application.  Specifically, you will start seeing requests that
+should be fast taking a long time to complete.
+
+This is because in mod_proxy_balancer seems to apply a rather simple
+minded round robin dispatch algorithm.  This algorithm means that a
+single mongrel can end up with low cost requests queued up behind a
+very expensive request.  Even when there are backend processes that
+are doing nothing at all.  This is a real problem. Because Rails is
+single threaded it means that each request that is sent to a
+particular mongrel process has to wait until all previous requests to
+that process are completely finish before work can begin on it.
+
+Imagine a series of requests arriving, one per second, with the
+following costs in seconds to complete:
+
+    a=5, b=1, c=1, d=1, e=1, f=1
+
+<table>
+<tr><th>Process</th> <th>1 second</th>  <th>2 seconds</th>  <th>3 seconds</th>  <th>4 seconds</th>          <th>5 seconds</th>          <th>6 seconds</th>
+<tr><td>8000</td>    <td>a(5 sec)</td>  <td>a(4 sec)</td>   <td>a(3 sec)</td>   <td>a(2 sec),d(1 sec)</td>  <td>a(1 sec),d(1 sec)</td>  <td>d(1 sec)</td>
+<tr><td>8001</td>    <td>idle</td>      <td>b(1 sec)</td>   <td>idle</td>       <td>idle</td>               <td>e(1 sec)</td>           <td>idle</td>
+<tr><td>8002</td>    <td>idle</td>      <td>idle</td>       <td>c(1 sec)</td>   <td>idle</td>               <td>idle</td>               <td>f(1 sec)</td>
+</table>
+
+From that you can see that request d, nominally a 1 second request,
+actually takes 3 seconds to complete.  
+
+Maybe Monogamy 
+------------------
+
+Seeing this you, of course, immediately hit the Apache docs looking
+for a solution.  Right off the bat you see the 
+[`max` parameter for ProxyPass][mod_proxy-proxypass].  Sweet, a nice 
+simple solution.  All you need to do is tweak you Apache 
+configuration to look like this: 
+
+    <Proxy balancer://my-application>
+      BalancerMember http://localhost:8000 max=1
+      BalancerMember http://localhost:8001 max=1
+      BalancerMember http://localhost:8002 max=1
+    </Proxy>
+    
+    ProxyPass /my-application balancer://my-application
+
+That says that Apache mod_proxy_balancer should make no more than 1
+connection to each Rails backend at any given time.  If a request
+comes in and all connections are busy that request will be queued in
+Apache waiting for the next available backend.  Which is *exactly*
+what we want.  Any Rails process handling a long request will not have
+further requests dispatched to it until it has finished what it is
+currently working on.
+
+This is not completely optimal resource usage (the backends go idle
+for a moment between each request), but from a responsiveness point of
+it is perfect.
+
+
+Broken Trust
+----------------
+
+So you do that and you deploy it into your high load environment.  And
+you notice right way that you are still seeing nominally short
+requests taking really excessive amounts of time.  So you go to your
+server and you fire up `netstat` and what do you see:
+
+    Proto Recv-Q Send-Q Local Address       Foreign Address         State
+    ...      
+    tcp      741      0 127.0.0.1:8000      127.0.0.1:62322         ESTABLISHED 
+    tcp      741      0 127.0.0.1:8000      127.0.0.1:53214         ESTABLISHED 
+    tcp        0      0 127.0.0.1:8000      127.0.0.1:61024         ESTABLISHED 
+    ...
+
+How are the multiple connections to the same Rails backend?  That
+should not be allowed!
+
+As it turns out Apache's mod_proxy_balancer seems to have a race
+condition that allows it to establish multiple connection to a single
+backend in high load conditions, even if `max` is set to 1.  I suspect
+this is because with multiple requests arrive at about the same time
+they are each dispatched to a single Apache worker.  The multiple
+Apache worker then each look at their shared data and see that the
+next available backend is X.  Then each of those worker,
+simultaneously, create a connection to the same backend.  This means
+that in low load situations, when you are unlikely to have multiple
+requests to Apache arrive at the exact same time, everything is fine.
+In high load situations, however, when multiple requests are
+practically guaranteed to arrive simultaneously you *will* end up with
+multiple connections to individual Rails backends.  (BTW, three
+simultaneous connection is *way* below max I have seen.)
+
+
+Rebound
+--------
+
+So now you know that you cannot trust Apache's mod_proxy_balancer.
+You can use [Pen][].  It is easy to configure, fast and it works
+great.  Oh, except for the fact that it does not queue requests if all
+the backends are busy.  You could handle that by setting a `max`
+connections on the proxy in Apache, but we already know that we cannot
+trust mod_proxy_balancer.  
+
+It seems that [HAProxy][] might be the best choice.  I'll let you
+know how it works out.
+
+
+
+
+
+
+[apache-mongrel-setup-1]: http://blog.codahale.com/2006/06/19/time-for-a-grown-up-server-rails-mongrel-apache-capistrano-and-you/
+[apache-mongrel-setup-2]: http://www.webmasterwords.com/ruby-rails-mongrel-apache-easy
+[apache-mongrel-setup-3]: http://webonrails.com/2007/02/04/apache-proxy-balancer-mongrel-clusters-and-deploying-application-with-capistrano/
+
+[haproxy]: http://haproxy.1wt.eu/
+[pen]: http://siag.nu/pen/
+[mongrel]: http://mongrel.rubyforge.org/
+[ror]: http://rubyonrails.org
+[mod_proxy_balancer]: http://httpd.apache.org/docs/2.2/mod/mod_proxy_balancer.html
+[mod_proxy-proxypass]: http://httpd.apache.org/docs/2.2/mod/mod_proxy.html#ProxyPass

@@ -1,0 +1,30 @@
+David Chappell [declares the REST vs WS-* war over][rest-vs-ws-war-is-over]
+
+> To anybody who's paying attention and who's not a hopeless partisan,
+> the war between REST and WS-* is over. The war ended in a truce
+> rather than crushing victory for one side--it's Korea, not World War
+> II. The now-obvious truth is that both technologies have value, and
+> both will be used going forward.
+
+In this conflict I am, undeniably, a REST partisan.  I know this
+colors my perceptions, but it is not obvious to me that the war is
+over.  It has become obvious, however, that WS-* will not prevail.  I
+have no doubt that many people who have invested a great deal of time
+and thought into WS-* that it remains a viable technology, at least
+for certain problems, but that does not mean it will.  I think the
+situations for which WS-* is the best available technology are
+vanishingly rare, perhaps even nonexistent.  As Mark Baker puts it in
+his [response to Mr Chappell][crud-more-crud-crud]
+
+> Perhaps David - or anybody else - could point me towards a data
+> oriented application which can't fit (well) into such a model (not
+> REST, just the uniform interface part).
+
+I expect that when all is said and done WS-* will still be around.
+But rather than as a vibrate technology platform, the way Mr Chappell
+seems to anticipate, I think it will be around in a way far more like
+the way Cobol is still around today.
+
+
+[rest-vs-ws-war-is-over]: http://www.davidchappell.com/blog/2007/06/rest-vs-ws-war-is-over-if-you-want-it.html
+[crud-more-crud-crud]: http://www.markbaker.ca/blog/2007/07/03/crud-more-crud-crud/

@@ -1,0 +1,160 @@
+
+The creation of new data representations (read: formats) has been
+accelerated by the increasing popularity of web services.  As it turns
+out most web services require the creation of one or more custom data
+representations.  Writing parsers is hard so we, as an industry, have
+developed a set of extensible languages such as [XML][] and [JSON][]
+that allow us to reuse parts of our tool chain even when we are
+dealing with custom representations.
+
+These extensible languages are a Good Thing.  However, it is important
+to remember that they are more like language frameworks, that like
+languages in their own right.  When you create an XML based language
+you have created a syntax in which the vast majority of XML documents
+are not valid.  Therefore, describing that syntax as XML is, while not
+strictly speaking untrue, hugely misleading.
+
+The specialized formats we create to represent our specific data are
+not really the same language as abstract, extensible, language from
+which they are derived.  So why do we think that it is OK to define a
+syntax for describing widgets that then serve it like this:
+
+    ----> 
+    GET /widgets
+    <---- 
+    200 OK
+    Content-Type: application/xml
+     
+    <widgets>
+    ...
+    </widgets>
+
+
+
+
+
+
+
+Unfortunately, many of these new formats are then served as
+`application/xml` or `application/json`.  Generic MIME types rarely
+provide any benefits, but their negative impacts are amplified by
+[REST style][rest] web services.
+
+Rather that using a generic MIME type, you should create a specific
+[MIME type][mime-type] any time you design a new format.  This is true
+regardless of whether you are you creating a new format from scratch
+or a new format based on some extensible syntax like XML or JSON.  In
+either case you are creating a new format against which code will have
+to be written.
+
+
+as part of any format design you do.  you design a document format[^think-really-hard-about-it] you
+should create a specific [MIME type][mime-type] to describe it.  
+
+That may seem obvious but it seems to be relatively uncommon in my
+experience.  
+
+
+
+That is the easy way.  Those MIME types are already defined and
+registered.  And using them is not lying, after all you are just the
+generic syntax of the specified meta format.  Unfortunately, that does
+not really help clients because it does not include enough information
+to know what to do with the documents.  
+
+Serving documents with generic MIME types is not just wrong in some
+theoretical sense.  It has many negative practical impacts. For
+example, it makes maintaining backwards compatibility in future
+versions much more difficult.  
+
+To see what I mean consider this, early into working on version 2 of
+your system some new feature request will arise that just does not fit
+into the current format.  So you design a new format and start serving
+that to all the clients that can handle it, and continue to serve the
+old format to older clients that don't need the new behavior.  Unless,
+of course, you are using `application/xml` or `application/json` as
+the content type.  The new will format probably uses the same
+meta-grammar as the old format so they have the same MIME type.  That
+means there is no way for clients to use content negotiation to let
+the server know whether they want the new or old format. 
+
+Which brings us to what exactly a MIME type should mean.  A MIME type
+should be specific enough that I 
+
+I hand someone a file and
+tell them the mime type they could write a program to do something
+interesting with that file with out viewing the contents of the file
+in question.  It is almost always wrong to claim that a document is of
+a MIME type that does not pass this litmus test.  It is wrong because
+any MIME type that does not pass this test does not describe enough
+semantics to be useful, and tagging a document with useless meta-data
+is a waste of everyone's time.
+
+(It is probably wrong for MIME types that do not pass this litmus test
+to exist at all.  Unfortunately, many of them do already so that is
+water under the bridge.)
+
+
+
+
+n my experience it is the exception not the
+rule.  
+
+This is true even for formats based on a
+generic syntax like [XML][], [JSON][] and [ASN.1][] and formats that
+are application specific.[^dont-forget-vnd-types]
+
+The 
+
+The prime example of a useless MIME type is
+`application/octet-stream`.  When you get that from an HTTP server it
+means approximately "the Content-Type header field is required but I
+really have no idea what this thing is, so I will just say it is a
+bunch of octets".  That is true, it is going to serve a stream of
+octets, but it is completely unhelpful.  What exactly are you going to
+do with a bunch of octets?  Save them to disk?  That is not exactly my
+ideal of interesting behavior.
+
+I doubt many people will disagree with me that
+`application/octet-stream` is pretty useless.  The problem is that
+there are many really common MIME types that fall into this category.
+For example, `application/xml`, `application/json`,
+`application/pkix-cert` (I will stop there, but I could go on.).  It
+is slightly less obvious that `application/xml` is useless because
+there is a standard syntax for xml documents.  However, if I hand you
+a file and say "it's an XML document" you cannot do anything even
+remotely interesting with it until you figure out what sort of XML
+document it is.
+
+The consumers assumptions about format are the basis of HTTP content
+negotiation.  If MIME types that pass the original test are used you
+can provide meaningful content negotiation.  For example, I recently
+spent some time debugging a problem related to exchanging public keys.
+This problem was made much harder by the fact that the MIME type
+`application/pkix-cert` applies to several complete incompatible
+document formats.  Clients that only support one of those formats have
+no way to inform the server that they really needed the public key in
+a particular format.
+
+
+
+
+
+[^dont-forget-vnd-types]:  Application specific formats are
+exactly the situation for which `application/vnd.{company}.{type}`
+style MIME types are designed.  You can even 
+[register your vendor type with IANA][http://www.iana.org/cgi-bin/mediatypes.pl].
+
+[^think-really-hard-about-it]: But before you run off and design yet
+another data interchange format please look around and make sure there
+is not already a standard format you could just reuse.  Reusing
+existing data formats is part of engineering for serendipity.  It will
+be better for you and everyone else in the long run.  Besides,
+designing data formats is hard (to do well).
+
+[mime-type-registration]: 
+[atom-rfc]: http://www.ietf.org/rfc/rfc4287.txt
+[mime-type]: http://en.wikipedia.org/wiki/Mime_type
+[xml]: http://en.wikipedia.org/wiki/XML
+[json]: http://www.json.org/
+[asn.1]: http://en.wikipedia.org/wiki/Asn.1

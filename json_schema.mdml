@@ -1,0 +1,82 @@
+We recently settled on using [JSON][] as the preferred format for the
+REST-based distributed application on which I am working.  We don't
+need the expressiveness of XML and JSON is a lot cheaper to generate
+and parse, particularly in [Ruby][].  Now we are busy defining
+dialects to encode the data we have, which is happy work.  The only
+problem is there is not a widely accepted schema language for
+describing JSON documents.
+
+I am not entirely sure a schema language for JSON is necessary in any
+strict sense.  I think that validating documents against a schema is
+overrated.  And, people do seem to be getting along just fine with
+examples and prose descriptions.  Still, the formalist in me is
+screaming out for a concise way to describe the JSON documents we
+accept and emit.
+
+I have a weakness for formal grammars.  I often write [ABNF][abnf]
+grammars describing inputs and outputs of my programs, even in
+situations where most people would just use a couple of examples.  I
+learned XML schema very early in it's life and I had a love/hate
+relationship with it for years.  Even though it is ugly and
+complicated I continued to use it because it let me write formal
+descriptions of the XML variants I created.[^relax-ng-saved-me]
+
+There are a couple of relatively obscure schema languages for JSON.
+Unfortunately, I don't find either of them satisfactory.
+
+## Cerny
+
+The [Cerny schema][cerny-schema] language and validator seem quite
+functional.  Unfortunately, Cerny appears to require complete
+Javascript interpreter and run-time to perform validation.  This
+requirement stems from the fact that Cerny allows parts of the schema
+to be defined as procedural Javascript code.  This approach is
+completely unacceptable for a language independent data transfer
+language like JSON.
+
+Such procedural checking is misguided, even beyond the practical
+problems with requiring a Javascript run-time.  Procedural validation
+code is a powerful technique for validating documents.  However, this
+procedural code greatly reduces the usefulness of schema documents as
+an informational tool.  Schema languages should be designed to
+communicate the structure of documents to humans, and only
+incidentally to validator programs.
+
+## Kwalify
+
+Another JSON schema language I have tried is [Kwalify][].  Kwalify
+seems reasonably capable also but it has some warts that really bother
+me.  My main issue with Kwalify is that it is super verbose.  This is
+primarily due to the fact that Kwalify schema documents are written in
+[YAML][] (or JSON).  Schema definitions can be encoded in a generic
+hierarchical data language, but it is not a very good idea.  I find
+both XSD and the XML variant of RelaxNG to be excessively noise and
+Kwalify shows a similarly poor signal to noise ratio.  Schema language
+designers should look to [RelaxNG's compact syntax][relaxng-compact-syntax]
+for inspiration and forget trying to
+encode the schema in the language being described.
+
+## Conclusion
+
+I think JSON could benefit from a schema language that is completely
+declarative and has a compact and readable syntax.  If anyone is
+working on such a thing I would love to know about it.  I could roll
+my own but I would really rather not unless it is absolutely
+necessary.
+
+
+[^relax-ng-saved-me]: Later I learned of [RelaxNG][].  Now am able to
+  have my cake and eat it too.  RelaxNG is a much simpler and elegant
+  way to describe XML documents.  And if you really need XML schema
+  for some part of you tool chain you can mechanically convert the
+  RelaxNG into XML schema.
+
+
+[abnf]: http://en.wikipedia.org/wiki/ABNF
+[relaxng]: http://relaxng.org/
+[json]: http://json.org
+[ruby]: http://ruby-lang.org
+[cerny-schema]: http://www.cerny-online.com/cerny.js/documentation/schema/
+[kwalify]: http://www.kuwata-lab.com/kwalify/
+[yaml]: http://yaml.org/
+[relaxng-compact-syntax]: http://relaxng.org/compact-20021121.html
