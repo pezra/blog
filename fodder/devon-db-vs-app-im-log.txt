@@ -1,0 +1,384 @@
+15:40
+Devon Jones: re: your post, some would argue that the rails talent pool isn't just small, it's nearly non existant
+Devon Jones: but that's because rails is an absolutely wretched framework that encourages really aweful behavior amongst developers
+15:55
+Peter: well, I have to disagree
+Peter: it is not perfect
+Peter: in fact there are parts of it i pretty much revile
+Peter: but i think it actually encourages a lot of really good behavior and patterns
+Peter: as long as you stay in it's sweet spot
+Devon Jones: the problem is
+Devon Jones: I think it's sweet spot is frankly just not right
+Devon Jones: ORM is broken
+Devon Jones: active record should never be used for anything other then a toy
+Peter: simple is not the same as broken
+Devon Jones: it's not that it's simple
+Peter: do you me ar the pattern or ar the library
+Devon Jones: it's that ORM encourages people to ignore sql
+Devon Jones: both
+Devon Jones: ar is a wretched piece of software
+Devon Jones: but the pattern itself is bad
+Peter: as far as the pattern, I think you are wrong
+Devon Jones: anything that enocurages people to get an object, loop through it's children to get their children
+Peter: it is not right for all situations but it is a perfectly servicable and highly straight forward way to conceptualize a simple data model 
+Devon Jones: and as an upshot results in n * O queries is broken
+16:00
+Devon Jones: the rails view of the world views the database as an adjunct to the application
+Peter: where you see lots of queries I see very low db contention :)
+Devon Jones: the database is in fact /the/ application
+Devon Jones: when it takes 7000 queries to load a page
+Peter: I think rails sees the db and the applications a inseperable
+Devon Jones: because people are following normal rails conventions
+Devon Jones: the framework is simply put a bad idea
+Devon Jones: that's part of the problem
+Devon Jones: rails feels like it can own the database
+Devon Jones: it doesn't treat it like a shared resource
+Devon Jones: anything other then a trivial app needs more then one process talking to the db
+Peter: I don't think rails is a great choice of all applications
+Devon Jones: it has precisely one application where it's useful: prototypes
+Peter: but most frameworks are horribly complex for the vast majority of web applications
+Devon Jones: but heaven help you if you don't throw away that code
+Peter: bull shit
+Devon Jones: heh
+Peter: lots of applications are built on rails.  the fact that you don't like it doesn't make it not useful
+Devon Jones: I do agree with you that most frameworks are horribly complex
+Devon Jones: java culture is wholly broken
+Peter: I agree
+Devon Jones: I just happen to think that ruby culture is now wholly broken as well
+Devon Jones: and rails is largely at fault for that
+Peter: you are painting the with a awfully broad brush
+Devon Jones: it's stepped away from the unix philosophy of coding
+Devon Jones: the idea of small, loosely coupled programs
+Peter: I don't think so, actully
+Devon Jones: and has bought into the java idea that it's ok to have a giant app
+16:05
+Peter: Any app that can't be built in rails easily is probably to big to be on app
+Devon Jones: ruby is perfectly capable of writing unixy apps
+Devon Jones: rails and rails culture just doesn't favor that
+Peter: oh but it does
+Peter: the framework practically demands you do it
+Devon Jones: er, what?
+Peter: it basically stops working if you get too bit
+Peter: big, I mean
+Devon Jones: the framework eschews dealing with other processes wherever it can
+Devon Jones: indeed that is the case
+Devon Jones: also it falls over with nearly any traffic
+Devon Jones: some companies have built large structures to keep it from falling over
+Devon Jones: re: twitter
+Peter: i don't what kind of crap you were doing a vonage but that rails scales up and out just fine
+Peter: with load
+Peter: but it does not scale up wrt code base size
+Devon Jones: at all
+Devon Jones: which to be fair, I keep fighting
+Devon Jones: to try and get people to put code into other processes
+Peter: I am pretty sure i can create a crap architecture that does not work using any technology you choose
+Devon Jones: but they see the value of having one model to fill all needs
+Devon Jones: as more important
+Devon Jones: which is why I think ORM is broken
+Devon Jones: because it encourages having bloated models
+Devon Jones: as opposed to keeping it minimal to the functionality your process needs with nothing else
+Devon Jones: having done a fair amount of rest, something I might add I *do* agree with you is a good thing
+Devon Jones: there is nearly no need for ORM
+16:10
+Devon Jones: because most calls need individual queries
+Devon Jones: as opposed to a swiss army knife of possible things you can do with them
+Devon Jones: a select for GETs, a delete for DELETEs and UPDATE or INSERT for posts
+Peter: Well at absolute performance we created a app specific model system for our REST API
+Devon Jones: no need for a bunch of objects hanging off the side
+Peter: that worked out really well
+Peter: but it was not AR
+Devon Jones: for the most part I've gone all the way back to just writing sql in line
+Peter: on the other hand AR uses relational database much like you might use a simplistic REST API
+Devon Jones: because it's the simplest solution
+Devon Jones: well, but we both know that get post put and delete are *not* crud
+Devon Jones: the semantics of put are subtle
+Peter: sql: only if you believe the db is something distinct from the application code
+Devon Jones: yeah, by in large I do
+Peter: and i don't anymore
+Devon Jones: if you have multiple apps
+Peter: integration is much better handled w/ a REST API
+Devon Jones: the choices you make at the db layer become essentially permanent
+Devon Jones: so doing the db right is more important then any one application on top of it
+Peter: but then your are locked into a technology choice
+Devon Jones: so I do agree that integration at a rest level is a good thing
+Peter: you can never decide that you really need to switch to oracle
+Peter: or to couchdb
+Peter: or to bigtable
+Peter: or a flat text file
+Devon Jones: in my experience
+Peter: by allowing more than one code base access to a db you have essential made a bunch of desicions irrevesible
+16:15
+Devon Jones: those kind of changes essentially become impossible anyway
+Peter: and irreversibility is almost always bade
+Devon Jones: because no one does things like reports via a rest api
+Devon Jones: not when you need to cut across the data in new ways in real time
+Peter: we they should not report against the api
+Peter: but the reporting system could easy use the api as the datasource for the building the datawarehouse
+Devon Jones: when you are dealing with huge amounts of data
+Devon Jones: that becomes infeasable
+Peter: ETL tools don't have to pull data from dbs
+Peter: it doesn't
+Devon Jones: not all reporting comes from datawarehouses
+Peter: or datamarts 
+Peter: or what ever
+Devon Jones: because not all reporting can wait for nightly pushes
+Peter: you shouldn't be reporting off the application database
+Peter: that is just scarey
+Devon Jones: if you need a real time dashboard
+Devon Jones: you don't have much of a choice
+Peter: nightly pushes: of course that is what data feeds are for
+Devon Jones: ETL is fundamentally a batch thing
+Devon Jones: it's a background process
+Peter: true but there is not reason you can't do a batch ever 10 secons
+Devon Jones: it can't give you a dashboard
+Peter: personally I'd model a truely realtime dashboard as part of the app, rather than an external system
+Devon Jones: the other issue you have
+Devon Jones: is that in large organizations
+Devon Jones: you simply put can't prevent people from talking to your db
+Devon Jones: it's politically non feasable
+Peter: only because the haven't been educated as to why it is a bad idea.  That is part of the reason i don't work in large organizations
+Devon Jones: not when you have someone screaming to get something done, and the app developers from a wholly different department say we need access
+16:20
+Devon Jones: and you tell them that we can build you an api
+Devon Jones: and they just go around that because they can't wait
+Peter: I know
+Peter: I avoid that problem
+Devon Jones: yeah
+Devon Jones: the db is the application in many environments
+Devon Jones: it has to be
+Devon Jones: no other options
+Devon Jones: for the above reason
+Devon Jones: so at that point it's about mitigation
+Devon Jones: not about purity
+Peter: similarly cobol is still in use in a lot of place;  but we don't defend it
+Devon Jones: so there's another situation
+Devon Jones: how many businesses get to avoid legacy
+Devon Jones: near zero for anything over 10 people
+Peter: the good ones don't avoid it, they encapsulate it
+Devon Jones: indeed
+Devon Jones: I have already built a number of rest apis to keep these systems are arms length
+Devon Jones: but until you can kill it
+Devon Jones: that's multiple system accessing the same database
+Devon Jones: my position ultimately is that in real environments, much of the time you don't get the option to have one piece of code per db
+Peter: am my position is that if you don't do that you have lost a really major battle
+Peter: and probably the war too
+16:25
+Devon Jones: so my architectural thought process has been built from a position that you have to deal with what you have
+Devon Jones: not what you want
+Devon Jones: kind of the "you go to war with the army you have, not the army you want"
+Devon Jones: course, this is why I'm so strict about things like foreign key constraints
+Peter: you will rapidly end up with a system that is so interconnected that you will never be able to adequately evolve the system 
+Devon Jones: sans adding columns
+Peter: rather than having a system that can survive over the long term you jump straight to legacy status
+Devon Jones: I tend to consider db tables as borderline set in stone when they are created
+Devon Jones: so the upshot is one need design the tables well
+Devon Jones: and make them resistant to people fuckign them up
+Devon Jones: this is especially true when you require maximal uptime
+Devon Jones: even with one code base
+Devon Jones: most large db tinkering is just too risky
+Devon Jones: there are ways around that, but it takes solid planning
+Peter: only when you have a lot of different things touching them
+Devon Jones: and multiple releases to mitigate the problem
+Devon Jones: even one code base
+Devon Jones: relying on the ability to roll back db changes is really dangerous
+Devon Jones: I tend to require that if say one needs to swap a column
+Devon Jones: one release adds the column
+Devon Jones: one release ports the code to using it
+Devon Jones: and a third release removes the old column
+16:30
+Devon Jones: but that's as I said purely for environments that require a lot of uptime
+Peter: I generally combine the column create and use code
+Devon Jones: that step you can sometimes, but not universally combine
+Devon Jones: it really depends on how the db is used
+Devon Jones: are people select *
+Devon Jones: if they are, how are they using the data
+Peter: but leaving drops to some later point is good practice
+Devon Jones: re: ruby
+16:35
+Devon Jones: personally ruby has unsold me on it in the past year and a half
+Devon Jones: and python has taken it's place for me
+Peter: I know
+Peter: python is fine
+Peter: not quite enough ability to create DSLs for my taste
+Peter: better than a lot of other choices, though
+Devon Jones: I never got bit by the DSL bug
+Devon Jones: actually
+Devon Jones: in many ways
+Devon Jones: I'm surprised that the ruby community is so anti sql
+Devon Jones: given that sql really is a DSL
+Devon Jones: *shrug*
+16:40
+Peter: it is
+Peter: but i certain advantages to using a data access dsl that is bound more tightly to the application layer
+Devon Jones: curious, do you enforce any rules at the db layer?
+Devon Jones: (not null, foreign key constraints, triggers, stored procs)
+16:45
+Peter: I generally enforce any unique constraints I have at the db layer (cause you have to)
+Peter: other than that generally not
+Peter: i generally despise stored procs
+Devon Jones: yeah, I don't trust application code to not be defective
+Peter: it is not that
+Devon Jones: the first time you end up with orphan records, your data is broken
+Devon Jones: and avoiding that situation where you can no longer proove data integrity is imho of the utmost important
+16:50
+Devon Jones: like I do things like inject modify dates/modify user at the db level
+Devon Jones: because it's impossible to prevent people from using: "mysql -u someuser -p"
+Devon Jones: so at the very least you then have a record of those things being changed
+Devon Jones: ultimately, I don't trust people or code ;)
+Devon Jones: so I try to make certain things effectively impossible
+Devon Jones: ftr, I tend to agree with stored procs, but to do what I need, triggers are necessary
+17:10
+Peter: sorry, had to step out for moment
+Peter: I enforce uniqueness in the db because you cannot enforce it at the app layer once you have multiple app servers running
+Peter: if similar request are made at the same moment you could end up with a duplicate record written to the db even if both processes checked for dups before creating it
+17:15
+Peter: other than uniqueness, though, I usually put data validation stuff in the app
+Peter: if it can be done reliably in the app, i do it there
+Devon Jones: yeah, my contention is that it can't be universally and therefore reliably done in the app
+Peter: not everything can
+Devon Jones: there's always the possibility of people running sql at the prompt
+Devon Jones: hell, sometimes there are even good reasons to do that
+Peter: true but then they are own there own, just like always
+Peter: all the foreign key constraints in the world will not save you from a dropped database
+Devon Jones: true
+Devon Jones: but it can prevent badly formed sql from breaking the data
+Devon Jones: part of the issue is that the database is the thing that I actually consider valuable.
+Devon Jones: Information is worth a lot more then code
+Devon Jones: like in dollars
+Peter: I agree with that but, as they say, garbage in garbage out.  if you app code sucks a super excellent datamodel will not save it
+17:20
+Devon Jones: I also think that pressures of business tend to force people to cut corners
+Peter: while you tend to think of the db as the thing, I think of the app as the thing
+Peter: actually, I think of the data as the thing
+Devon Jones: so enforcement at the db level provides friction to people launching half baked code that doesn't respect the data model
+Peter: but you need an app to collect an utilize the data
+Devon Jones: right, I think of the data as the thing too
+Devon Jones: indeed
+Devon Jones: I tend to see the app as disposable
+Peter: if that is true should should really like the db less than you do
+Devon Jones: mostly from a lot of experience seeing that businesses do throw apps away, but rarely throw away data
+Peter: because relying so heavily on the db prevents apps from be disposed of as often as they should be
+Devon Jones: I wouldn't call it "like"
+Devon Jones: I just see it as the only consistant point of control
+Devon Jones: and I disagree
+Devon Jones: relying heavily on the db prevents the db from being thrown away
+Devon Jones: which I admit to
+Devon Jones: I've never really seen someone successfully pry themselves off a db after it's in place
+Peter: but the db defined the parameters in which the current and all future apps can work
+Devon Jones: indeed, it does do that
+Devon Jones: which comes back to design in the db is very very critical
+Peter: you cannot wake up on day and say "we cannot scale our relational db any more, lets move to google app engine"
+Devon Jones: because bad mistakes in the db layer can sink a business
+Peter: only if you make the irreversible 
+Peter: make them, I mean
+Devon Jones: I think actually moving like that is a myth ;)
+Devon Jones: I don't think it ever actually happens for a loose definition of ever
+Peter: it is for systems that rely on the db as an integration point
+17:25
+Devon Jones: it can happen, but it's very costly
+Peter: it doesn't have to be
+Peter: we where doing that sort of thing a absolute performance
+Devon Jones: how big of an organization?
+Devon Jones: I'm not saying that to be snotty, just that different things are possible in small businesses then either mid sized or large
+Peter: pretty small, but we where a saas systems so the amount of data was huge for the size company we where
+Peter: aren't you in a small business
+Devon Jones: but if you have a small shop
+Devon Jones: you can have the cultural cohesion necessary to do that
+Devon Jones: but that breaks down as companies increase in size
+Peter: it is possible in any size shop if the architecture allows it
+Devon Jones: so I am at a small company
+Devon Jones: but it has dreams of being a big company
+Peter: it is the architecture that matters, not the size of the organization
+Devon Jones: so I'm trying my best to design for when I know that this stuff will break down
+Peter: most large organizations have crap architectures
+Devon Jones: I agree with that
+Devon Jones: and to be clear
+Devon Jones: I agree with you about integration layers
+Devon Jones: I think programs should be decoupled using textual interfaces wherever possible
+Peter: and I think that it is always possible
+Devon Jones: short of web systems, I tend to think most programs should be < 2k lines and speak on stdin and stdout as long as possible
+Devon Jones: some problems require something larger
+Devon Jones: but in most cases
+Devon Jones: if it's larger then 2k lines
+Devon Jones: there's probably a broken design decision somewhere
+Peter: i'm with you on small pieces
+17:30
+Peter: I am almost there with web apps too
+Peter: I think most web apps are too large
+Devon Jones: so I could live with rails if we could keep it away from our db
+Devon Jones: they are
+Devon Jones: what I would rather have is a code base of a bunch of separate processes that serve restful apis on a db
+Devon Jones: and then a web app that calls those or in some cases proxies those
+Devon Jones: the web app should do templating
+Devon Jones: that's it
+Peter: you mind if i use this conversation a the source material for blog post?
+Devon Jones: sure, that's fine
+Devon Jones: part of my problem with rails is tha tout of the box, the framework is *already* too bloated
+Peter: not sure exactly what I want to say, but feel like there are some issues in here worth elaborating on
+Devon Jones: so in general, I don't think architects get much chance to talk to other architects in depth
+Peter: and I can use your parts as a way to remind me how others view the world
+Devon Jones: because there is generally room for one on the team
+Devon Jones: no problem
+Peter: talking, agreed
+Devon Jones: in many ways, poor architecture actually strictly adhered to is better then awesome architecture that is used in a spotty way
+Peter: it is also hard because to have productive discussions you need people who don't hold the exact same point of view, but there does need to be some common ground
+Devon Jones: so as a result you can't have two competing visions in one team
+Devon Jones: yeah
+Devon Jones: and in general, we have a lot of points of agreement
+Peter: what brooks called conceptual integrity
+Devon Jones: right
+Devon Jones: but enough disagreement to make it interesting
+17:35
+Peter: yep
+Devon Jones: I don't know about you, but I actually feel my time at integ shaped me really heavily
+Devon Jones: I wouldn't be nearly as concerned about making systems so defensive if I hadn't seen the interiors of so many shops
+Devon Jones: also, for all their faults, the db design at integ tended to be pretty decent
+Peter: that might be the biggest difference between us... i tend to think that most people are reasonably competent
+Peter: and they are basically doing what ever their environment is encouraging them to do
+Devon Jones: you've worked for a lot of small companies, right?
+Peter: and some really big one
+Peter: a really big one
+Devon Jones: my experience is that there are almost no actually good coders out there, and nearly all programmers don't think about second order much less third order impacts of their design decisions
+Peter: and a few mid size ones
+Devon Jones: ok
+Devon Jones: so a big range
+Peter: always the biggest failures have been systemic, rather than individual
+17:40
+Devon Jones: I've dealt with too many contracting firms methinks
+Peter: sure, most people aren't that good at second and third order impacts
+Peter: if that is needed it is systemic problem, because people are just not built to solve that sort of problem effectively
+Peter: it would be like saying "all the drivers in the world suck because none of them can breath water"
+Devon Jones: what I mean by it is that most programmers I have worjked with, when presented a problem
+Devon Jones: will take the shortest path to fixing something
+Devon Jones: or to implementing something
+Devon Jones: the results are that without strong direction
+Devon Jones: most systems turn into a ball of mud
+Peter: probably because that is what the incentive structure is arranged to encourage
+Peter: I have seen that myself
+Devon Jones: I could be wrong
+Peter: I don't think you are wrong
+Peter: I just assign blame to a different place
+Devon Jones: but business people don't care about keeping a system architecturally sound
+Devon Jones: they care about what they can get in a timescale that matters to the deals they are trying to cut
+Peter: because they have not had any architects educate them on why they should care
+Devon Jones: so most organizations drift towards one-offism
+Peter: i agree
+Peter: hence of current financial crisis
+Devon Jones: heh
+Devon Jones: yeah
+Devon Jones: very very true
+Devon Jones: my thinking tends to lead towards making the path towards doing anything other then the right thing architecturally painful
+17:45
+Devon Jones: you can't really change business people, so I err towards making it painful to do the wrong thing
+Devon Jones: that way the quick path aligns with the business needs
+Peter: and I tend toward finding business people I can change
+Peter: but given my employment history I may be on the wrong track
+Devon Jones: the problem is, new ones show up
+Devon Jones: heh
+Devon Jones: interesting observation
+Peter: I have to go make dinner for the kids
+Devon Jones: okee doke
+Devon Jones: feel free to message me when you want to chat more ;)
+Peter: thanks
+Peter: talk to you latter
+Devon Jones: later
