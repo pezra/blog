@@ -57,7 +57,8 @@ looks like this
       database: my_db_development
       username: my_app
       password:
-      socket: <%= File.exist?('var/run/mysqld/mysqld.sock') ? 'var/run/mysqld/mysqld.sock' : '/tmp/mysql.sock' %>
+      socket: <%= File.exist?('var/run/mysqld/mysqld.sock') ? 
+                    'var/run/mysqld/mysqld.sock' : '/tmp/mysql.sock' %>
     
     ⋮
 
@@ -76,7 +77,8 @@ structure like the YAML+ERB version does.
         :database => 'my_app_development',
         :username => 'my_app',
         :password => '',
-        :socket   => File.exist?('var/run/mysqld/mysqld.sock') ? 'var/run/mysqld/mysqld.sock' : '/tmp/mysql.sock'
+        :socket   => File.exist?('var/run/mysqld/mysqld.sock') ? 
+                       'var/run/mysqld/mysqld.sock' : '/tmp/mysql.sock'
       },
       ⋮
     }
@@ -96,7 +98,8 @@ oriented approaches.  Consider the following
       database  = 'my_db_#{RAILS_ENV}'
       user_name = 'my_app'
       password  = ''
-      socket    = File.exist?('/var/run/mysqld/mysqld.sock') ? '/var/run/mysqld/mysqld.sock' : '/tmp/mysql.sock'
+      socket    = File.exist?('/var/run/mysqld/mysqld.sock') ? 
+                    '/var/run/mysqld/mysqld.sock' : '/tmp/mysql.sock'
 
       env('production') {
         host = 'db1.my_org.invalid'
