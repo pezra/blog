@@ -1,19 +1,22 @@
-<img src="/blog/uploads/enfs-combo.jpg" style="float:right;"/>
+<img src="/blog/uploads/encfs-combo.jpg" style="float:right;"/>
 
-Security is a thing a my [new job][idw], unlike many other places i
-have worked.  We follow PCI security standards.  We take great care
-never to have our customers sensitive information on unsecured
-machines.  We try to stay aware of the security risks in our
-environments.  With that in mind, i decide that storing all my work
-related files on my laptops in clear text was suboptimal.  I have
-thought at pretty much every job I have had, but i never did anything
-about it before.
+Security is a thing at my [new job][idw].  We follow [PCI security
+standards][pci].  We take great care never to have our customers
+sensitive information on unsecured machines.  We make efforts to stay
+aware of the security risks in our environments.  
 
-After some research i settled on [EncFS][].  Unlike the other
-encrypted filesystems EncFS does not require you reserve a large
-amount of disk space up front.  EncFS effectively lets you make a
-directory in which all the files will be encrypted.  This is great for
-documents, source code, temp files, etc.
+With that in mind, i decide that storing all my work related files on
+my laptops in clear text was suboptimal.  I have thought this same
+thing at pretty much every job I have had, but i have never done
+anything about it before.
+
+After a bit of research i settled on [EncFS][] as the best mechanism
+to encrypt my work related data.  It is an encrypted file system.
+Unlike the most of the other encrypted file systems for Linux, EncFS
+does not require reserving large amounts of disk space up front.
+EncFS effectively lets you make a directory on an existing file system
+in which all the files will be encrypted.  It is very easy to setup
+and use.
 
 In addition to normal sorts of files, i utilize databases quite a bit.
 All my test and development databases need to be encrypted on disk.
@@ -24,20 +27,26 @@ The encrypted directory is not readable until i log in and provide a
 password.  That means that when the database server starts it cannot
 access the database files on disk.  Fortunately, [PostgreSQL][pg] is
 totally bad ass.  It will happily start up even if it is unable to
-access some of its configured table spaces.  As soon as the encrypted
-filesystem is mounted, the databases that reside in the encrypted
-directory instantly become available.  The encryption layer does not
-even effect performance noticeably.[^dev-only]
+access some of the configured table spaces.[^public-mode]  As soon as
+the encrypted file system is mounted, the databases that reside in the
+encrypted directory instantly become available.  The encryption layer
+does not even effect performance noticeably.[^dev-only]
 
-[^dev-only]: This is light duty single user performance we are talking
-  about.  I wouldn't suggest this setup for a heavy load production
-  environment, but in development it is great.
+[^dev-only]: This is light duty, single user, performance we are
+  talking about.  I wouldn't suggest this setup for a heavy load
+  production environment, but in development it no sweat.
 
-That combined with a tiny script that unmounts the encrypted
-filesystem when my machine is suspended, means that if someone steals
-my laptop the only thing they can access is my family photos.  That is
-a pretty nice feeling.  It turned out to be so easy i wish i had not
-waited until now to figure out how to do it.
+[^public-mode]: To allow the `postgres` user to access the encrypted
+  file system you do need to mount it with the `--public` option.
+
+One thing i did think is a little weak is that encrypted file systems
+don't get unmounted when the computer is put to sleep.  No worries,
+though.  A tiny script in `/etc/pm/sleep.d` to unmount the file system
+is all it takes to rectify that situation.
+
+Now if someone steals my laptop the only thing they will be able to
+access are my family photos.  That is a pretty nice feeling.  Even
+better, it turned out to be very easy.
 
 
 
