@@ -14,10 +14,15 @@ FileList["*/text.md"].each do |a_post|
 
   namespace post_name do 
     desc "Generate HTML fragment from post text and copy it to clipboard"
-    task :copy => "#{post_name}/text.html_frag" do 
-      `xsel --clipboard < #{post_name}/text.html_frag`
+    task :copy => "#{post_name}/text.html_frag" do
+      post = File.read "#{post_name}/text.html_frag"
+      post.sub!(/<h1[^>]*>.*<\/h1>/mi, '') 
+      File.popen("xsel --clipboard", "w") do |xsel|
+        xsel.write(post)
+      end
     end
   end
+
 end
 
 CLEAN.include(FileList['*/text.html_frag'])
