@@ -36,12 +36,13 @@ polling to quite low levels.
 Pull is cool
 -------------
 
-APIs should be built around pulling data unless low latency is very
-important.  Any push approach with have all the complexities if pull
-approach (to handle reliability issues) combined with a lot less
-predictable behavior because it's performance will be dependent on one
-or more other systems ability to handle the event notification work
-load.
+APIs should be built around pulling data unless there is a particular
+functional concern that makes pull not work (e.g. low message latency
+being very important).  Any push approach with have all the
+complexities if pull approach (to handle reliability issues) combined
+with a lot less predictable behavior because it's performance will be
+dependent on one or more other systems ability to handle the event
+notification work load.
 
 
 [deohara-push]: http://www.dehora.net/journal/2008/12/13/design-considerations-for-fine-grained-data-access-via-the-web/
