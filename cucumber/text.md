@@ -1,3 +1,5 @@
+<a href="http://cukes.info"><img src="http://barelyenough.org/blog/uploads/cucumber/cucumber_logo.png" alt="MS Great Plain API diagram" style="float:right;" /></a>
+
 I have been working pretty extensively with [Cucumber][] for the last
 couple of weeks.  In short, it is killer.  You should be using it.
 
