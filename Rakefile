@@ -8,7 +8,7 @@ FileList["*/text.md"].each do |a_post|
   file "#{post_name}/text.html_frag" => "#{post_name}/text.md" do 
     Dir.chdir(post_name) do 
       `maruku --html-frag text.md`
-      `sed --in-place 's/\\(fn\\(ref\\)\\?:\\)/\\0#{post_name}\-/g' text.html_frag`    
+      `sed --in-place 's/\\(fn\\(ref\\)\\?:\\)/\\0#{post_name}-/g' text.html_frag`    
     end
   end
 
