@@ -1,4 +1,4 @@
-<a href="http://cukes.info"><img src="http://barelyenough.org/blog/uploads/cucumber/cucumber_logo.png" alt="MS Great Plain API diagram" style="float:right;" /></a>
+<a href="http://cukes.info"><img src="http://barelyenough.org/blog/uploads/cucumber/cucumber_logo.png" alt="Cucumber Logo" style="float:right;" /></a>
 
 I have been working pretty extensively with [Cucumber][] for the last
 couple of weeks.  In short, it is killer.  You should be using it.
@@ -13,8 +13,7 @@ without losing confidence in the overall systems ability to function
 acceptably.
 
 If you are using [Emacs][] i highly recommend [cucumber.el][].  It has
-excellent support for editing [Gherkin][] files (from the original,
-and excellent, [cucumber.el][cucumber.el-orig]) and key
+excellent support for editing [Gherkin][] files and key
 bindings to execute scenarios, etc and view the output without ever
 having to leave the comfort of Emacs.
 
@@ -24,5 +23,4 @@ having to leave the comfort of Emacs.
 [rspec]: http://rspec.info
 [emacs]: http://www.gnu.org/software/emacs/
 [cucumber]: http://cukes.info
-[cucumber.el]: http://github.com/pezra/cucumber.el
-[cucumber.el-orig]: http://github.com/michaelklishin/cucumber.el
+[cucumber.el]: http://github.com/michaelklishin/cucumber.el
