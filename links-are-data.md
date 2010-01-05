@@ -1,15 +1,15 @@
-[Mr Amundsen][mca-json-link-secion] regarding the design of "semantic
-machine media types",
+[Mr Amundsen's][mca-smmt] recent post regarding the design of "semantic
+machine media types" got me thinking about media type design.  One of
+the commonly encouraged practices, particularly on the
+[REST discuss group][rest-discuss], is the use of
+[`link` elements][atom-link].
 
-> One simple (and proly not completely functional) approach would be
-> to adopt a message that has two main sections: links and data.
+[rest-discuss]: http://tech.groups.yahoo.com/group/rest-discuss
 
-I really dislike like the idea of sequestering links in a ghetto all
-by themselves.  Links are data and we should not treat them any
-different than any other data.  I believe that pretty strongly, now
-that i think of it.  I don't like [link elements][atom-link] in XML,
-either.  Think it might be easiest to show why by a bit of
-extrapolation:
+I really dislike this idea.  It sets my teeth on edge because it
+treats links -- which are possibly the most important bits of data in
+existence -- as second class citizens.  It is easiest to show what i
+mean with a bit of extrapolation:
 
     <complexElement rel="entry">
       <string rel="id">234132</string>
@@ -25,70 +25,69 @@ extrapolation:
     </complexElement>
 
 That is what a [portable contact][] might look like if we treated all
-data the way we treat links today.  That look pretty ugly to me, as i
-suspect it does to most people.
+data the way `link` elements work.  That example looks pretty ugly to
+me, as i suspect it does to most people.  It is ugly because very
+important information regarding the role of elements is relegated to a
+subsidiarity position in favor of fairly unimportant information about
+its type.  However, `link` elements do to links exactly what my example
+does to all the data.  The effect is that properties whose values
+happen to be independently addressable resources are obfuscated.
 
+[revealed preference]: http://en.wikipedia.org/wiki/Revealed_preference
 [portable contact]: http://portablecontacts.net/
 
-The reason it looks ugly it because it is.  This approach places the
-least valuable information in the most prominent place.  Doing it for
-properties whose values are first class resources does not make it
-better.
+The [revealed preference][] of the world is against `link` elements.
+Just look at pretty much any format that embeds application specific
+semantics.  As far as i know, there is not a single widely used format
+that actually represents its links as `link` elements.  Even [atom][]
+uses properly named elements for most its links.  The `link` element it
+defines is largely relegated to the back water of extensibility.
 
-Perhaps rather that getting our knickers in a knot about the type of
-particular properties we could just treat them as normal data, but tag
-them as links so that generic tools could gain some visibility.  For
-example:
+[atom]: http://tools.ietf.org/html/rfc4287
+[intention revealing names]: http://c2.com/cgi/wiki?IntentionRevealingNames
+
+One benefit that `link` elements have, or at least could have if they
+where more widely used, is the facilitation of standard link
+processing tools.  Fortunately, we do not have to give up the
+expressiveness and clarity of [intention revealing names][] to achieve
+this result.  Rather than obscuring the links we could just treat them
+as normal data.  The additional information needed to support standard
+tools could be added in a relatively unobtrusive way.  Consider the
+following:
 
     <entry xmlns:link="http://unobtrusive-generic-linking.org/">
       ...
       <emails>
-        <value link:hrefDisposition="content">mailto:pezra@barelyenough.org</value>
+        <value link:hrefDisposition="elementContent" link:rel="foo">mailto:pezra@barelyenough.org</value>
         <type>personal</type>
       <emails>
     </entry>
     
-This is idea is a lot like [xLink][] but it seems simpler and more expressive to me.
+This is idea is similar to [xLink][] but more flexible and simpler to
+use.
 
 [xlink]: http://www.w3.org/TR/xlink
     
-You could expand the idea to JSON with relative ease.
+You could expand the idea to JSON with relative ease.  Consider the
+following expansion of the portable contacts json format tagged with
+some unobtrusive link info.
 
-    {...
-     "entry": 
-       [{...
-         "emails" :
-           [{"value"    : "mailto:pezra@barelyenough.org",
-             "_linkInfo : {"hrefDisposition" : "value"},
-             "type"     : "presonal"}]}]}
+    {"entry": [
+      {"id": "42",
+      "emails":
+        [{"address"   : "mailto:pezra@barelyenough.org",
+          "type"      : "personal",
+          "_linkInfo" : {"hrefDisposition" : "address", "rel" : "foo"}}]}]}
+
             
-This approach could be extended to support of the full set of data
-need to fully support RESTful applications.
+Unobtrusive link info makes links visible to and usable by generic
+link processing tools while protecting the use of intention revealing
+names that format designers, and users, want.  This is important
+because it allows new formats to reuse "standard" link semantics more
+easily and uniformly.
 
 
-
-
-    {"customer    : "http://sample.invalid/customers/24",
-     "line_items" : 
-       [{"self"     : "http://sample.invalid/line-items/42"
-         "quantity" : 5
-         "product"  : "http://sample.invalid/product/84"}]}
-
-
-    {"links" : [{"rel"  : "http://rels.sample.invalid/customer",
-                 "href" : "http://sample.invalid/customers/24"},
-                {"rel"  : "self",
-                 "href" : "http://sample.invalid/orders/43"}]
-     "line_items" : 
-       [{"links" : [{"rel"  : "self"
-                     "href" : "http://sample.invalid/line-items/42"},
-                    {"rel"  : "http://rels.sample.invalid/product",
-                     "href" : "http://sample.invalid/product/9484"}],
-          "quantity" : 5}]}
-		    
-    
-
-[atom-link]: 
+[atom-link]: http://tools.ietf.org/html/rfc4287#section-4.2.7
 [json-schema-g-group]: http://groups.google.com/group/json-schema
 [mca-smmt]: http://amundsen.com/blog/archives/1023
 [mca-json-link-section]: http://amundsen.com/blog/archives/1023#IDComment49463101
