@@ -58,7 +58,9 @@ following:
     <entry xmlns:link="http://unobtrusive-generic-linking.org/">
       ...
       <emails>
-        <value link:hrefDisposition="elementContent" link:rel="foo">mailto:pezra@barelyenough.org</value>
+        <value link:hrefDisposition="elementContent" 
+               link:rel="foo">
+          mailto:pezra@barelyenough.org</value>
         <type>personal</type>
       <emails>
     </entry>
@@ -77,7 +79,8 @@ some unobtrusive link info.
       "emails":
         [{"address"   : "mailto:pezra@barelyenough.org",
           "type"      : "personal",
-          "_linkInfo" : {"hrefDisposition" : "address", "rel" : "foo"}}]}]}
+          "_linkInfo" : {"hrefDisposition" : "address", 
+                         "rel" : "foo"}}]}]}
 
             
 Unobtrusive link info makes links visible to and usable by generic
