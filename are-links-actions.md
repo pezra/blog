@@ -12,9 +12,12 @@ the
 
     <cart>
       <!-- some stuff here -->
-      <link rel="http://ex.org/rel/abort" href="http://ex.org/cart/cancel;token=987654321"/>
-      <link rel="http://ex.org/rel/add-more" href="http://ex.org/cart/add;token=987654321"/>
-      <link rel="http://ex.org/rel/buy" href="http://ex.org/cart/buy;token=987654321"/>
+      <link rel="http://ex.org/rel/abort" 
+            href="http://ex.org/cart/cancel;token=987654321"/>
+      <link rel="http://ex.org/rel/add-more" 
+            href="http://ex.org/cart/add;token=987654321"/>
+      <link rel="http://ex.org/rel/buy" 
+            href="http://ex.org/cart/buy;token=987654321"/>
     </cart>
 
 I place this example in the "links for every action" camp.  Each of
@@ -24,34 +27,34 @@ An alternate approach might look something like this.
 
     <cart>
       <!-- some stuff here -->
-      <link rel="http://ex.org/rel/line-items" href="http://ex.org/cart/line-items;token=987654321"/>
-      <link rel="http://ex.org/rel/new-order" href="http://ex.org/orders?cart=987654321"/>
+      <link rel="http://ex.org/rel/line-items" 
+            href="http://ex.org/cart/line-items;token=987654321"/>
+      <link rel="http://ex.org/rel/new-order" 
+            href="http://ex.org/orders?cart=987654321"/>
     </cart>
 
 From a client perceptive these are a bit different.  
 
-#### Abandoning cart
+Abandoning cart 
+: A client that wants to abandon a cart in the first example would
+  make a DELETE or POST -- it's a bit hard to tell which from the
+  example -- request to the href of the `http://ex.org/rel/abort`
+  link.  In the second example a similar client would just DELETE the
+  cart resource.
 
-A client that wants to abandon a cart in the first example would make
-a DELETE or POST -- it's a bit hard to tell which from the example
--- request to the href of the `http://ex.org/rel/abort` link.  In the
-second example a similar client would just DELETE the cart resource.
+Adding item
+: When adding an item in the first example the client would post a
+  www-form-urlencoded document containing the URI of the item to add
+  and the quantity to the href of the `http://ex.org/rel/add-more`
+  link.  In the second example, the same document gets posted to href
+  of the `http://ex.org/rel/line-items` link.
 
-#### Adding item
-
-When adding an item in the first example the client would post a
-www-form-urlencoded document containing the URI of the item to add and
-the quantity to the href of the `http://ex.org/rel/add-more` link.  In
-the second example, the same document gets posted to href of the
-`http://ex.org/rel/line-items` link.
-
-#### Placing order
-
-In the first example the client would make a POST request to the href
-of the `http://ex.org/rel/buy` link.  In the second example the client
-would POST a www-form-urlencoded document containing the cart URI and
-some payment information to the href of the `http://ex.org/rel/order`
-link.
+Placing order
+: In the first example the client would make a POST request to the
+  href of the `http://ex.org/rel/buy` link.  In the second example the
+  client would POST a www-form-urlencoded document containing the cart
+  URI and some payment information to the href of the
+  `http://ex.org/rel/order` link.
 
 ### Differences
 
