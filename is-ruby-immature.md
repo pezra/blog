@@ -1,5 +1,5 @@
 A friend of mine recently
-[describe why he feels ruby is immature][devon-immature-ruby].  I, of
+[described why he feels ruby is immature][devon-immature-ruby].  I, of
 course, disagree with him.  There is much in ruby that could be
 improved, but the issues he raised are a) intentional design choices
 or b) weaknesses in specific applications built in ruby.  Neither of
