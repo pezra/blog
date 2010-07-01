@@ -69,7 +69,7 @@ often results in less code, but is always results in less cognitive
 load.
 
 Consider the [`#try`][try-method] in ruby.  While not my favorite
-implementation of this concept, it is stiall a powerful idiom for
+implementation of this concept, it is still a powerful idiom for
 removing clutter from the code.
 
 `#try` executes the specified method on the receive, unless the
@@ -107,7 +107,7 @@ value being used as a foreign key in the database.  This is not a
 problem i see very often, but i can happen.
 
 This is definitely not a problem with ruby.  Rather results from an
-unfortunate choice of nameing convention in rails.  Rails uses `id` as
+unfortunate choice of naming convention in rails.  Rails uses `id` as
 the name of the primary key column for database tables.  This results
 in an `#id` method being created, which overrides the `#id` provided by
 ruby itself for all objects.  If rails had chosen to call the primary
