@@ -26,14 +26,14 @@ rather than converting an array into a sets.
 The set operations on `Array` do not have the same performance
 characteristics mr. Jones found with `Set`.  For example,
 
-    youthful-indiscretion:blog pezra$ time ruby -rpp -e 'pp (1..10_000_000).to_a & (1..10).to_a'
+    $ time ruby -rpp -e 'pp (1..10_000_000).to_a & (1..10).to_a'
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     
     real	0m10.152s
     user	0m6.592s
     sys	0m3.515s
     
-    youthful-indiscretion:blog pezra$ time ruby -rpp -e 'pp (1..10).to_a & (1..10_000_000).to_a'
+    $ time ruby -rpp -e 'pp (1..10).to_a & (1..10_000_000).to_a'
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     
     real	0m12.410s
