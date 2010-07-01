@@ -47,10 +47,10 @@ only version i have handy at the moment.  I am sure that 1.9, or even
 Libraries that are low traffic areas don't get the effort that high
 use libraries do in any language.  Even though `Set` is part of the
 standard library, it is definitely counts as a low traffic area.
-Hence, it has never been optimized for large numbers of items.This is
-appropriate because as we [learned from Ron Pike][unix] "n is usually
-small".  The benefits of handling large sets performantly is not worth
-the addition complexity for a low traffic library.
+Hence, it has never been optimized for large numbers of items.  This
+is appropriate because as we [learned from Ron Pike][unix] "n is
+usually small".  The benefits of handling large sets performantly is
+not worth the addition complexity for a low traffic library.
 
 [unix]: http://www.faqs.org/docs/artu/ch01s06.html
 
