@@ -38,14 +38,12 @@ components involved in the average change to the system.
 
 [coa]: http://onestepback.org/articles/connascence/conalgorithm.html
 
-Slicing
-----
+With those metrics in mind lets explore the two most common approaches
+and see how they compare with each other.  Those two patterns of
+componentization are horizontal slicing and vertical slicing.
 
-With those metrics in mind lets explore these approaches and see how
-they compare with each other.  There are two basic patterns of
-componentization horizontal slicing and vertical slicing.  
-
-### Horizontal slicing
+Horizontal slicing
+-----
 
 In this approach the component boundaries are derived from that
 implementation domain.  The implementation is divided into a set of
@@ -62,7 +60,8 @@ For example, an application that has a business logic and a
 presentation layer the application would be divided into two
 components.  A business logic component and a presentation component.
 
-### Vertical slicing
+Vertical slicing
+----
 
 In this approach the component boundaries are derived from the
 application domain.  Related domain concepts are grouped together into
@@ -78,8 +77,11 @@ integrate separate applications you have vertical componentization.
 The Score
 ---------
 
+Against the metrics we laid out earlier, vertical slicing does much
+better than horizontal.
+
 |                  | Horizontal slicing | Vertical slicing |
-|------------------+--------------------+------------------|
+|------------------|--------------------|------------------|
 | Cohesion         | high               | high             |
 | Repeatability    | low                | high             |
 | DRYness          | low                | high             |
