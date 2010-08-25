@@ -8,7 +8,7 @@ system which has queues `aaa` and `zzz`.  If you add 100 jobs to `aaa`
 and 1 job to `zzz`, the job on `zzz` will wait a long time before
 being processed.
 
-This problem is easily solved by just checkout the queues in random
+This problem is easily solved by just checking the queues in random
 order.  Over time, any particular queue will be checked early so a few
 deep queues will not starve the other queues in the system.
 
