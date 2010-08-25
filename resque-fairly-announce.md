@@ -3,13 +3,13 @@ nice asynchronous job system based on [Redis][].
 
 Resque checks the queues for jobs to process in a fixed order. (In
 alphabetic order, to be precise.)  This turns out to be a problem is
-you want predictable handling time for you jobs.  For example,
-consider a system which has queues `aaa` and `zzz`.  If you add 100
-jobs to `aaa` and 1 job to `zzz`, the job on `zzz` will wait a long
-time before being processed.
+you want predictable handling time for jobs.  For example, consider a
+system which has queues `aaa` and `zzz`.  If you add 100 jobs to `aaa`
+and 1 job to `zzz`, the job on `zzz` will wait a long time before
+being processed.
 
 This problem is easily solved by just checkout the queues in random
-order.  Over time any particular queue will the checked early so a few
+order.  Over time, any particular queue will be checked early so a few
 deep queues will not starve the other queues in the system.
 
 [resque-fairly][] is a Resque [plugin][resque-plugins] which provides
