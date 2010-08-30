@@ -15,13 +15,12 @@ The usually suggested way to handle this is with
 stash in this situation myself.  However, i often found myself lost in
 the stash queue.  If you use stash to store unfinished work your stash
 queue can become quite long.  It is easy to forget you have stashed
-work.  It is also easy to do a `git stash clear`.
+work.  It is also easy to do a `git stash clear` and lose that work.
 
-For example, if the above scenario occurs again once you have started
-working on the urgent issue.  Or if you switch tasks not because of an
-urgent issue, but because the business deprioritized the feature.  In
-those sorts of situations it can often be quite a while before you get
-back to your stashed changes.
+There are lots of situations in which it can be quite a while before
+you get back to your stashed changes.  For example, if you switch
+tasks because the business deprioritized the feature.  Or if the
+urgent issue gets interrupted by an emergency issue.
 
 It recently occurred to me that git provides a much more elegant way
 to deal with unfinished work.
@@ -40,7 +39,7 @@ anyway but it is required for this technique to work.
 7. Continue where you left off.  Once you are ready, commit.
 
 This approach commits you in-progress work on the branch to which it
-belonged, keeping it safe.
+belongs, keeping it safe.
 
 How it works
 -----
@@ -68,10 +67,7 @@ The "WIP" commit is now "unreachable" because no objects or references
 in the system point to it.  It will be removed the next time you do a
 `git gc`.
 
-So there you have it.  A safe, clean and easy way to handling
-switching tasks with git that will not cause your git stash queue to
-become deep with stashes that you no longer remember what they are
-for.  `git stash` definitely has it place but i reserve it for
+`git stash` definitely has it place but i reserve it for
 situations where i am going to pop the stash very quickly (eg, i
 stash, the checkout a different branch, then pop).
 
