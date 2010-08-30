@@ -4,7 +4,7 @@ be fixed right away but i have a lot of changes in my working
 directory.  Unfortunately, the changes i have made are incomplete and
 non-functional.
 
-[customer-integration]: I do a lot of customer integration.  Once a
+[^customer-integration]: I do a lot of customer integration.  Once a
 customer starts testing it is important to keep the turn around on
 their blocking issues to a minimum.  If you don't they get distracted
 and it's no telling how long you'll have to wait before they start
@@ -12,9 +12,10 @@ testing again.
 
 The usually suggested way to handle this is with
 [`git-stash`][git-manual-interrupted-work].  For a long time, i used
-the technique myself.  However, i often found myself lost in the stash
-queue.  If you use stash to store unfinished work your stash queue can
-become quite long.
+stash in this situation myself.  However, i often found myself lost in
+the stash queue.  If you use stash to store unfinished work your stash
+queue can become quite long.  It is easy to forget you have stashed
+work.  It is also easy to do a `git stash clear`.
 
 For example, if the above scenario occurs again once you have started
 working on the urgent issue.  Or if you switch tasks not because of an
@@ -29,31 +30,51 @@ The steps
 ------
 
 First, always work in a feature branch.  You should be doing this
-anyway but it is required for this technique to work.
+anyway but it is required for this technique to work.  
 
-So you are working away in your feature branch and you need to switch
-tasks.  Do a `git add -A` followed by a `git commit -m 'WIP'`.  Your
-in progress work is saved as the HEAD commit of the feature branch.
+1. `git add -A` (on the feature branch)
+2. `git commit -m 'WIP'`
+3. Switch branches and fix that urgent issue.  Using git like you always do.
+5. `git checkout <feature-branch>`
+6. `git reset HEAD~1`
+7. Continue where you left off.  Once you are ready, commit.
 
-Now `git checkout <whatever>` and go fix the urgent issue.
-
-Once you want to come back to you in progress work do a `git checkout
-<feature-branch>`.  Now you have all you work you did checked out but
-you have still have that the 'WIP' commit hanging around.  That is bad
-because you know the code in that branch is broken.
-
-We want to pretend like that 'WIP' commit never happened. It turns out
-this is easy with git.  Just run `git reset HEAD~1`.  This will reset
-the HEAD pointer of your feature branch back to the commit immediately
-before the 'WIP' commit, but it leaves your working directory intact.
-
-Now make that feature work, commit, merge into master and push.  The
-commit will have the current HEAD as it's parent so the 'WIP' commit
-will be excluded from the history.  The next time you do a `git gc`
-that 'WIP' commit will be removed because it is no longer reachable.
+This approach commits you in-progress work on the branch to which it
+belonged, keeping it safe.
 
 How it works
 -----
 
+Once you do your WIP commit your history will look something like:
+
+<image src="http://barelyenough.org/blog/uploads/task-switching-in-git/git-commits-wip.png"/>
+
+That is great for temporarily storing your in-progress work.  We
+definitely don't want that nasty "WIP" commit in our history long
+term, though.  The `git reset HEAD~1` command changes the HEAD pointer
+of the feature branch back to the commit immediately before the "WIP"
+commit.  That leave a commit graph something like:
+
+<image src="http://barelyenough.org/blog/uploads/task-switching-in-git/git-commits-reset.png"/>
+
+Once you have completed your changes and committed the HEAD pointer of
+the feature branch will be updated to point the new commits.  This
+leaves the "WIP" commit out of the commit history of the branch
+forever. 
+
+<image src="http://barelyenough.org/blog/uploads/task-switching-in-git/git-commits-final.png"/>
+
+The "WIP" commit is now "unreachable" because no objects or references
+in the system point to it.  It will be removed the next time you do a
+`git gc`.
+
+So there you have it.  A safe, clean and easy way to handling
+switching tasks with git that will not cause your git stash queue to
+become deep with stashes that you no longer remember what they are
+for.  `git stash` definitely has it place but i reserve it for
+situations where i am going to pop the stash very quickly (eg, i
+stash, the checkout a different branch, then pop).
 
 [git-manual-interrupted-work]: http://www.kernel.org/pub/software/scm/git/docs/user-manual.html#interrupted-work
+
+
