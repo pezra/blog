@@ -20,6 +20,13 @@ FileList["*.md"].each do |a_post|
         xsel.write(post)
       end
     end
+
+    desc "upload images"
+    task :upload_images do 
+      system "ssh barelyen@barelyenough.org 'mkdir -p public_html/wordpress/wp-content/uploads/#{post_name}/'"
+      system "scp #{post_name}/*.png barelyen@barelyenough.org:public_html/wordpress/wp-content/uploads/#{post_name}/"
+      system "scp #{post_name}/*.jpg barelyen@barelyenough.org:public_html/wordpress/wp-content/uploads/#{post_name}/"
+    end
   end
 end
 
