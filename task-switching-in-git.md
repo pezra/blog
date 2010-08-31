@@ -46,7 +46,7 @@ How it works
 
 Once you do your WIP commit your history will look something like:
 
-<image src="http://barelyenough.org/blog/uploads/task-switching-in-git/git-commits-wip.png"/>
+<img src="http://barelyenough.org/blog/uploads/task-switching-in-git/git-commits-wip.png"/>
 
 That is great for temporarily storing your in-progress work.  We
 definitely don't want that nasty "WIP" commit in our history long
@@ -54,14 +54,14 @@ term, though.  The `git reset HEAD~1` command changes the HEAD pointer
 of the feature branch back to the commit immediately before the "WIP"
 commit.  That leave a commit graph something like:
 
-<image src="http://barelyenough.org/blog/uploads/task-switching-in-git/git-commits-reset.png"/>
+<img src="http://barelyenough.org/blog/uploads/task-switching-in-git/git-commits-reset.png"/>
 
 Once you have completed your changes and committed the HEAD pointer of
 the feature branch will be updated to point the new commits.  This
 leaves the "WIP" commit out of the commit history of the branch
 forever. 
 
-<image src="http://barelyenough.org/blog/uploads/task-switching-in-git/git-commits-final.png"/>
+<img src="http://barelyenough.org/blog/uploads/task-switching-in-git/git-commits-final.png"/>
 
 The "WIP" commit is now "unreachable" because no objects or references
 in the system point to it.  It will be removed the next time you do a
