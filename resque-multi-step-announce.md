@@ -19,10 +19,9 @@ work has been complete.
 
 These patterns show up often enough that i have gotten tired of
 repeating myself.  Hence was born [resque-multi-step][].
-Resque-multi-step provides the functionality described above.  It
-provides compound job support for [Resque][] complete with progress
-tracking, error handling, and a completely serial finalization
-sequence.
+Resque-multi-step is a [Resque][] plugin that provides compound job
+support complete with progress tracking, error
+handling, and a completely serial finalization sequence.
 
 Example
 -----
