@@ -1,7 +1,7 @@
 Saml-sp provides support for being a SAML 2.0 service provider in an
 HTTP artifact binding SSO conversation.
 
-## SYNOPSIS:
+## Synopsis
 
 This library provides parsing of SAML 2.0 artifacts.  For example.
     
@@ -92,17 +92,17 @@ In promiscuous mode the credentials are sent with every request to
 this resolutions service regardless of it's realm.
 
 
-## REQUIREMENTS:
+## Requirements
 
  * Nokogiri
  * Resourcful
  * uuidtools
  
-## INSTALL:
+## Install
 
  * sudo gem install saml-sp
 
-## LICENSE:
+## License
 
 Copyright (c) 2010 OpenLogic
 
