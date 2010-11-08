@@ -17,7 +17,7 @@ FileList["*.md"].each do |a_post|
     desc "Generate HTML fragment from post text and copy it to clipboard"
     task :copy => "#{post_name}.html_frag" do
       File.popen("pbcopy", "w") do |xsel|
-        xsel.write(post)
+        xsel.write(File.read(post_name + ".html_frag"))
       end
     end
 
@@ -46,7 +46,7 @@ FileList["*/text.md"].each do |a_post|
     desc "Generate HTML fragment from post text and copy it to clipboard"
     task :copy => "#{post_name}/text.html_frag" do
       File.popen("pbcopy", "w") do |xsel|
-        xsel.write(post)
+        xsel.write(a_post)
       end
     end
   end
