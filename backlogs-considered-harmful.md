@@ -24,7 +24,7 @@ It is easy to pretend everything is top priority, but if you are not
 willing prioritize a bit of work before something you have already
 decided you want it is obviously not very important.
 
-### If it important you will not forget
+### If it is important you will not forget
 
 I think the idea that you will forget something important is scariest
 part of this approach.  That fear is just silly.  If you are
