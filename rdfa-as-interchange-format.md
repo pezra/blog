@@ -45,49 +45,45 @@ designing a way to exchange licensing information for software
 packages.  The current phase of development is primarily focused on
 simple manifest and copyright licensing related information.
 
-<div style="border: solid 2px gray;">
-<h2>Files in zlib 1.2.5</h2>
-<table>
+<div style="border:solid 2px gray; overflow:auto;">
+<h2 style="margin-top:0.25em; margin-bottom:0.25em;">Files in zlib 1.2.5</h2>
+<table style="border-collapse:collapse;">
 <thead>
 <tr><th>Name</th><th>Type</th><th>License</th><th>Checksum</th><th>Copyright</th></tr>
 </thead>
 
 <tbody>
 <tr typeof="spdx:File" about="https://olex.openlogic.com/package_versions/download/9423?path=openlogic/zlib/1.2.5/openlogic-zlib-1.2.5-all-src-1.zip&amp;package_version_id=3690#adler32.c">
-<td property="spdx:Name">adler32.c</td>
+<td property="spdx:Name">adler32.c
+<span resource="https://olex.openlogic.com/package_versions/download/9423?path=openlogic/zlib/1.2.5/openlogic-zlib-1.2.5-all-src-1.zip&amp;package_version_id=3690" rev="spdx:MemberFile"/></td>
 <td property="spdx:Type">source</td>
 <td><a href="http://spdx.com/licenses/zlib" rel="spdx:License">Zlib</a></td>
 <td property="spdx:mac" datatype="spdx:sha256">gWAPnq8fV6sVKdiYkgJQ1nFoTaXXSqoVfJbMCr9Kzd0</td>
 <td property="spdx:Copyright">unknown</td>
-<span resource="https://olex.openlogic.com/package_versions/download/9423?path=openlogic/zlib/1.2.5/openlogic-zlib-1.2.5-all-src-1.zip&amp;package_version_id=3690" rev="spdx:MemberFile"/>
 </tr>
 
 <tr typeof="spdx:File" about="https://olex.openlogic.com/package_versions/download/9423?path=openlogic/zlib/1.2.5/openlogic-zlib-1.2.5-all-src-1.zip&amp;package_version_id=3690#amiga/Makefile.pup">
-<td property="spdx:Name">amiga/Makefile.pup</td>
+<td property="spdx:Name">amiga/Makefile.pup<span resource="https://olex.openlogic.com/package_versions/download/9423?path=openlogic/zlib/1.2.5/openlogic-zlib-1.2.5-all-src-1.zip&amp;package_version_id=3690" rev="spdx:MemberFile"/></td>
 <td property="spdx:Type">other</td>
 <td><a href="http://spdx.org/licenses/Zlib" rel="spdx:License">Zlib</a></td>
 <td property="spdx:mac" datatype="spdx:sha256">plyzzUCxuOx34oiXTdncU9ke14u.SV6UzMhN3UI.3x8</td>
 <td property="spdx:Copyright">unknown</td>
-<span resource="https://olex.openlogic.com/package_versions/download/9423?path=openlogic/zlib/1.2.5/openlogic-zlib-1.2.5-all-src-1.zip&amp;package_version_id=3690" rev="spdx:MemberFile"/>
-</tr>
-        
+</tr>       
         
 <tr typeof="spdx:File" about="https://olex.openlogic.com/package_versions/download/9423?path=openlogic/zlib/1.2.5/openlogic-zlib-1.2.5-all-src-1.zip&amp;package_version_id=3690#ChangeLog">
-<td property="spdx:Name">ChangeLog</td>
+<td property="spdx:Name">ChangeLog<span resource="https://olex.openlogic.com/package_versions/download/9423?path=openlogic/zlib/1.2.5/openlogic-zlib-1.2.5-all-src-1.zip&amp;package_version_id=3690" rev="spdx:MemberFile"/></td>
 <td property="spdx:Type">other</td>
 <td><a href="http://spdx.org/licenses/Zlib" rel="spdx:License">Zlib</a></td>
 <td property="spdx:mac" datatype="spdx:sha256">rxKcRCSHu8.4tHMdiJRINMatY4efBCMz.PmHpo.gj9s</td>
 <td property="spdx:Copyright">unknown</td>
-<span resource="https://olex.openlogic.com/package_versions/download/9423?path=openlogic/zlib/1.2.5/openlogic-zlib-1.2.5-all-src-1.zip&amp;package_version_id=3690" rev="spdx:MemberFile"/>
 </tr>
 
 <tr typeof="spdx:File" about="https://olex.openlogic.com/package_versions/download/9423?path=openlogic/zlib/1.2.5/openlogic-zlib-1.2.5-all-src-1.zip&amp;package_version_id=3690#contrib/ada/readme.txt">
-<td property="spdx:Name">contrib/ada/readme.txt</td>
+<td property="spdx:Name">contrib/ada/readme.txt<span resource="https://olex.openlogic.com/package_versions/download/9423?path=openlogic/zlib/1.2.5/openlogic-zlib-1.2.5-all-src-1.zip&amp;package_version_id=3690" rev="spdx:MemberFile"/></td>
 <td property="spdx:Type">other</td>
 <td><a href="http://spdx.org/licenses/GPL-2.0" rel="spdx:License">GPL-2.0</a></td>
 <td property="spdx:mac" datatype="spdx:sha256">j.nlMD8ujot0bHglDnS3xK63zmIS_c51H8Ogzlakf.I</td>
 <td property="spdx:Copyright">unknown</td>
-<span resource="https://olex.openlogic.com/package_versions/download/9423?path=openlogic/zlib/1.2.5/openlogic-zlib-1.2.5-all-src-1.zip&amp;package_version_id=3690" rev="spdx:MemberFile"/>
 </tr>
 </tbody>
 </table>
@@ -100,28 +96,28 @@ The following is a similar amount of information expressed in RDF/XML
       <spdx:License rdf:resource="http://spdx.org/licenses/Zlib"/>
       <spdx:Name>CMakeLists.txt</spdx:Name>
       <spdx:Type>source</spdx:Type>
-      <spdx:mac rdf:datatype="http://purl.org/spdx/sha256">L_NaoTEuHjO8uI1VLGIai2rDk7wPkoyeSe5vVD1gxOc</spdx:mac>
+      <spdx:sha1>L_NaoTEuHjO8uI1VLGIai2rDk7wPkoyeSe5vVD1gxOc</spdx:sha1>
     </spdx:File>
     <spdx:File rdf:about="https://olex.openlogic.com/package_versions/download/9423?path=openlogic/zlib/1.2.5/openlogic-zlib-1.2.5-all-src-1.zip=3690#ChangeLog">
       <spdx:Copyright>unknown</spdx:Copyright>
       <spdx:License rdf:resource="http://spdx.org/licenses/Zlib"/>
       <spdx:Name>ChangeLog</spdx:Name>
       <spdx:Type>other</spdx:Type>
-      <spdx:mac rdf:datatype="http://purl.org/spdx/sha256">rxKcRCSHu8.4tHMdiJRINMatY4efBCMz.PmHpo.gj9s</spdx:mac>
+      <spdx:sha1>rxKcRCSHu8.4tHMdiJRINMatY4efBCMz.PmHpo.gj9s</spdx:sha1>
     </spdx:File>
     <spdx:File rdf:about="https://olex.openlogic.com/package_versions/download/9423?path=openlogic/zlib/1.2.5/openlogic-zlib-1.2.5-all-src-1.zip=3690#FAQ">
       <spdx:Copyright>unknown</spdx:Copyright>
       <spdx:License rdf:resource="http://spdx.org/licenses/Zlib"/>
       <spdx:Name>FAQ</spdx:Name>
       <spdx:Type>other</spdx:Type>
-      <spdx:mac rdf:datatype="http://purl.org/spdx/sha256">qNaKL48VknhfAA7NgpOLjMoyHlxv45x.hMu8UfAy0Fc</spdx:mac>
+      <spdx:sha1>qNaKL48VknhfAA7NgpOLjMoyHlxv45x.hMu8UfAy0Fc</spdx:sha1>
     </spdx:File>
     <spdx:File rdf:about="https://olex.openlogic.com/package_versions/download/9423?path=openlogic/zlib/1.2.5/openlogic-zlib-1.2.5-all-src-1.zip=3690#INDEX">
       <spdx:Copyright>unknown</spdx:Copyright>
       <spdx:License rdf:resource="http://spdx.org/licenses/Zlib"/>
       <spdx:Name>INDEX</spdx:Name>
       <spdx:Type>other</spdx:Type>
-      <spdx:mac rdf:datatype="http://purl.org/spdx/sha256">HMjPi3ZRY2Anq1vc4Lfl5x77JWj3hhaWWT.I34QPK9g</spdx:mac>
+      <spdx:sha1>HMjPi3ZRY2Anq1vc4Lfl5x77JWj3hhaWWT.I34QPK9g</spdx:sha1>
     </spdx:File>
 
 
