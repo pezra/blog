@@ -76,7 +76,7 @@ A graph for the third option would look like
 
     <http://zlib.net/zlib-1.2.5.tar.gz#Makefile> a spdx:file;
       spdx:checksum [spdx:algorithm <spdx:sha1>;
-                     spdx:checksumValue "1fac389…"^^xs:hexBinary].
+                     spdx:checksumValue "1fac389…"^^xs:hexBinary];
       spdx:checksum [spdx:algorithm <spdx:sha256>;
                      spdx:checksumValue "4aa8223…"^^xs:hexBinary].
       
