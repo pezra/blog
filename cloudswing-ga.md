@@ -1,4 +1,9 @@
-<a href="http://cloudswing.openlogic.com/"><img src="cloudswing-ga/screenshot.png" alt="Screen shot of CloudSwing"/><caption>CloudSwing</caption></a>
+<a href="http://cloudswing.openlogic.com/">
+<figure>
+  <img src="http://barelyenough.org/blog/uploads/cloudswing-ga/screenshot.png" alt="Screen shot of CloudSwing"/>
+  <figcaption>CloudSwing</figcaption>
+</figure>  
+</a>
 
 If the idea of deploying your applications on commercially supported
 open source stacks with built in application monitoring and cost
