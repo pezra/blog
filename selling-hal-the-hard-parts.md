@@ -19,24 +19,57 @@ should the fact that a bit of data has an identifier effect its
 disposition in the representational? As and example, consider the
 humble shipping address. In some systems addresses are not
 individually identifiable, they are just a complex property of the
-order. In other systems addresses are individually identifiable (so
-the user can pick the shipping address from a list of previously used
-ones) so they go in the `_links` section. From the domain perspective
-there is exactly zero difference between those two, it is a pure
-implementation level choice.
+order. In other systems addresses are individually identifiable (for
+example, so the user can pick the shipping address from a list of
+previously used ones) so they go in the `_links` section. From the
+domain perspective there is exactly zero difference between those two,
+it is a pure implementation level choice.
 
 I found it particularly hard to sell this part of hal because I don't
 really like it either. On the other hand, most of the other formats
-out make similar a choice so it is either accept this or roll your
-own. I am thoroughly unconvinced that the world needs yet another JSON
+out make similar a choice so it is either accept this or roll your own
+and I am thoroughly unconvinced that the world needs yet another JSON
 hyper media format.
 
 ### Embedded section
 
-### URIs for besoke relations
+The `_embedded` section is also a point of some confusion. The need to
+reduce HTTP requests is easy to grasp but it seems to many of the
+uninitiated to be a rather complicated way to solve the
+problem. However, once links are segregated this, or something
+similar, may be the best solution. I have found that the embedded
+always requires discussion but gets relatively little push back once
+it's purpose is reasonably well articulated.
 
+### URIs for custom relations
 
+The requirement to use URIs for custom relations often meets
+significant resistance. Complaints usually center around the
+"ugliness" of URIs or how hard they are to read. More user experience
+oriented participants will be concerned that the use of URIs for rels
+will be off putting for new client developers and will result is
+slower or reduced adoption of the API by client developers. This is a
+very real concern and one that should not be taken lightly. CURIEs
+offer a solution of sorts to the ugly rels problem. With CURIEs a rel
+such as `http://example.com/rels/orders` can be represented as
+`app:orders`. This prettifies the link rels as the expense of quite a
+bit of complexity in both the HAL documents and client code. This
+trade off -- beauty for complexity -- may be worth it for APIs that
+need to drive rapid adoption.
 
+It is worth noting that most client developers will probably use a
+client library of some sort. This means they will not be directly
+exposed to the JSON after the initial exploration and API selection
+phase of their projects. Of course, those are absolutely critical
+periods for the success of most APIs.
+
+Sometimes the aesthetic assessments morph into concerns about how
+using URIs as relations "complicates" the format. I don't buy that the
+beauty, or lack thereof, effects the complexity in any way. Such
+complaints can usually be dealt with by clarifying what the
+complainant means by complexity in this situation. Once they are
+making, essentially, an aesthetic argument discussion tend to revert
+to the issues discussed above.
 
 
 [^not-json-ld]: I seriously considered [JSON-LD][] and in many ways I
