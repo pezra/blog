@@ -1,26 +1,26 @@
 # Web API best practices -- forward compatibility
 
-Designing APIs and clients for forward compatibility it the best way to achieve evolvability and maintainability in and microservice architecture. [Wikipedia defines forward compatibility as "a design characteristic that allows a system to accept input intended for a later version of itself."][wikipedia-def] Designing APIs and clients to be forward compatible allows each side of that relationship to change independent of the other. As with all software design, forward compatibility is an exercise in reducing [connascence][]. We want a system in which each component (service) can modified independent without breaking the current behavior of the system. Without such independence any microservice architecture is doomed to collapse under its own maintenance cost.
+Designing APIs and clients for forward compatibility it the best way to achieve evolvability and maintainability in a microservice architecture. [Wikipedia defines forward compatibility as "a design characteristic that allows a system to accept input intended for a later version of itself."][wikipedia-def] Designing APIs and clients to be forward compatible allows each side of that relationship to change independently of the other. Forward compatibility is an exercise in reducing [connascence][]. We want a system in which each component (service) can modified independent without breaking the current behavior of the system. Without such independence any microservice architecture is doomed to collapse under its own maintenance cost.
 
-Change is. Period. Any attempt to stop change will fail. The only hope for success is welcome change and build avenues for adaptation into our designs. This set of best practices have proven to provide superior forward (and backward) compatibility. As described here these practices are specific to HTTP and web APIs but the general ideas apply to any application protocol.
+Change is inevitable. Any successful architecture must accept, even welcome, change. Building avenues for adaptation into our designs allows our systems to survive and thrive in the face of change. This set of best practices has proven to provide superior forward (and backward) compatibility. As described here these practices are specific to HTTP and web APIs but the general ideas apply to any application protocol.
 
-Forward compatibility is largely the responsibility of clients and document consumers. However, each forward compatible pattern is supported by an backward compatibility. The following list of patterns describes the responsibilities of both parties. If either side fails to uphold their end of the contract there can be no compatibility.
+Forward compatibility is largely the responsibility of clients or document consumers. However, each forward compatible pattern is supported by backwards compatibility in the servers or document consumers. The following list of patterns describes the responsibilities of both parties. If either side fails to uphold their end of the contract compatibility will suffer.
 
-## redirection
+## redirection ##
 
-URLs change over time. Companies rebrand their products, get acquired, change their name, etc. Developers implement services in suboptimal components and later those services are relocated. Sometimes new features require changes to URLs.
+Clients *must* follow [redirections][redir]. 
 
-Fortunately, [HTTP provides an excellent mechanism for handling such changes: redirection][redir]. All clients *must* follow redirections. Failing to do so is nothing more, or less, than an undiscovered bug. Clients that scrupulously follow redirections are forward compatible and will not break when URLs change.
+URLs change over time. Companies rebrand their products, get acquired, change their name, etc. Developers relocate services to more optimal components. New features sometimes require changes to URLs. Redirection allows servers to change URLs without breaking existing clients by providing runtime discovery of the new URLs.
 
-### supporting backward compatibility
+### supporting backward compatibility ###
 
-To support this forward compatibility servers *must* provide redirections when URLs change. Failing to do so will cause widespread failure.
+A URL, once given to a client, represents a contract. To honor these contract servers *must* provide redirection of existing URLs when they change. Even in hypermedia APIs clients will bookmark URLs. 
 
 ## must ignore semantics
 
-Document formats change over time. New features require new properties and links. New information illuminates our understanding of cardinalities and datatypes.
+Document consumers *must* ignore any features of documents they don't understand.
 
-Document consumers *must* ignore any features of documents they don't understand. This allows document producers to add new features without fear of breaking clients.
+Document formats change over time. New features require new properties and links. New information illuminates our understanding of cardinalities and datatypes. Ignoring unrecognized document features allow producers to add new features without fear of breaking clients.
 
 ### supporting backward compatibility
 
@@ -28,9 +28,9 @@ Document producers *must* not remove, or change the syntax or semantics of exist
 
 ## hypermedia APIs
 
-Available behavior changes over time. We discover new business rules. We realize that existing features are ill conceived.
+Clients *must* discover available behavior at runtime.
 
-Clients *must* discover behavior at runtime. [Hypermedia APIs][] provide a easy mechanism for clients to discover behavior by embedding links in API responses. Clients *must* handle the absence of expected links gracefully. Clients *must not* construct URLs
+Available behavior changes over time. We discover new business rules. We realize that existing features are ill conceived. [Hypermedia APIs][] provide a easy mechanism for clients to discover behavior by embedding links in API responses. Clients *must* handle the absence of expected links gracefully. Clients *must not* construct URLs
 
 ### supporting backward compatibility
 
