@@ -1,27 +1,8 @@
-### outline
-
-* data locality
-  * group behavior based on data locality
-  * build rough component vision early
-
-* Auth first
-  * central to everything
-  * comprehensible
-  * permission, no role, based
-
-* existing seams
-  * after auth find a seam in existing code to exploit
-  * can be partial extraction
-
-* new features
-  * new features in new components
-  * don't shared DBs!
 
 
 
 
-
-Micro-service architectures are all the rage these days. Let's say, totally hypothetically, that you show up at a new job and find a large code base that has all the pathologies we have come to expect from monoliths. Your first thought might be something like "we should break this behemoth up into a collection of components, each of which is comprehensible to mere humans." That is a great goal, but how do you get from a huge, highly coupled, monolith to a constellation of cooperating components? Most "efforts" to modularize monolithic software are abandoned at about the time someone serious considers that question. That is before the effort even starts. It is easy to become overwhelmed by the immensity of the task and absence of obvious starting points and to just give up without a fight.
+Micro-service architectures are all the rage these days. Let's say, totally hypothetically, that you already have a  large code base that has all the pathologies we have come to expect from monoliths. Your first thought might be something like "we should break this behemoth up into a collection of components, each of which is comprehensible to mere humans." That is a great goal, but how do you get from a huge, highly coupled, monolith to a constellation of cooperating components? Most "efforts" to modularize monolithic software are abandoned at about the time someone serious considers that question. That is before the effort even starts. It is easy to become overwhelmed by the immensity of the task and absence of obvious starting points and to just give up without a fight.
 
 I have lead several successful decomposition efforts over my career. Each of these efforts shared some common patterns which, i believe, are the keys to success. These patterns are:
 
@@ -87,5 +68,7 @@ Once you have built a consensus around extraction as part of a larger feature, b
 Basically, component extraction is just normal, every day incremental refactoring, but in the large.
 
 ## Conclusion
+
+With commitment, these few simple rules of thumb, and a lot of effort any team can componentize a monolith. Get buy in from your entire team for the effort. Organize components around central data interactions to optimized performance and clarity. Extract authentication and authorization first because it most other components will depend on it. Create a precedent around building new features outside of the monolith. Finally, extract an existing feature from the monolith. No monolith lasts forever.
 
 
